@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "lmstudio/qwen3.6-27b@q3_k_xl",
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://192.168.55.166:1234/v1"
+      },
+      "models": {
+        "qwen3.5-9b": {
+          "name": "Qwen 3.5 9B (Unsloth) — long-context arm",
+          "limit": { "context": 262144, "output": 32768 }
+        },
+        "qwen3.6-27b": {
+          "name": "Qwen 3.6 27B (Unsloth UD-Q4_K_XL)",
+          "limit": { "context": 98304, "output": 32768 }
+        },
+        "qwen3.6-27b@q3_k_xl": {
+          "name": "Qwen 3.6 27B (Unsloth UD-Q3_K_XL) — 5th arm",
+          "limit": { "context": 163840, "output": 32768 }
+        },
+        "qwen3.6-35b-a3b": {
+          "name": "Qwen 3.6 35B-A3B (Unsloth UD-Q4_K_XL)",
+          "limit": { "context": 131072, "output": 32768 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .title { font-family: Georgia, 'Times New Roman', serif; font-size: 40px; font-weight: bold; fill: #2a2520; }
+      .hook  { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; fill: #5c4033; }
+      .name  { font-family: 'Segoe UI', Arial, sans-serif; font-size: 19px; font-weight: 600; fill: #2a2520; }
+      .small { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #5c4033; }
+      .be    { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 17px; fill: #2a2520; }
+      .gl    { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; fill: #5c4033; }
+      .cap   { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-style: italic; fill: #5c4033; }
+      .branding { font-family: Georgia, 'Times New Roman', serif; font-size: 16px; fill: #5c4033; }
+    </style>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
+      <path d="M0,0 L6.5,3 L0,6 Z" fill="#0bab64"/>
+    </marker>
+  </defs>
+
+  <!-- Parchment background + green accent bars -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+  <rect x="0" y="0"   width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Title + hook -->
+  <text class="title" x="600" y="54" text-anchor="middle">Secure, Scalable Home Web Hosting</text>
+  <text class="hook"  x="600" y="84" text-anchor="middle">with HAProxy, pfSense, Let&#8217;s Encrypt &amp; Cloudflare</text>
+
+  <!-- Internet globe -->
+  <g stroke="#5c4033" stroke-width="2" fill="none">
+    <circle cx="70" cy="249" r="20"/>
+    <ellipse cx="70" cy="249" rx="8" ry="20"/>
+    <line x1="50" y1="249" x2="90" y2="249"/>
+  </g>
+  <text class="gl" x="70" y="292" text-anchor="middle">Internet</text>
+  <line x1="125" y1="249" x2="171" y2="249" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+
+  <!-- Cloudflare -->
+  <svg x="207" y="198" width="60" height="60" viewBox="0 0 48 48">
+    <path d="m143.05 93.42 1.07-3.71c1.27-4.41.8-8.48-1.34-11.48-2-2.76-5.26-4.38-9.25-4.57L58 72.7a1.47 1.47 0 0 1-1.35-2 2 2 0 0 1 1.75-1.34l76.26-1c9-.41 18.84-7.75 22.27-16.71l4.34-11.36a2.68 2.68 0 0 0 .18-1 3.31 3.31 0 0 0-.06-.54 49.67 49.67 0 0 0-95.49-5.14 22.35 22.35 0 0 0-35 23.42A31.73 31.73 0 0 0 .34 93.45a1.47 1.47 0 0 0 1.45 1.27h139.49a1.83 1.83 0 0 0 1.77-1.3z" style="fill:#f4801f" transform="translate(.002 13.149) scale(.22907)"/>
+    <path d="M168.22 41.15q-1 0-2.1.06a.88.88 0 0 0-.32.07 1.17 1.17 0 0 0-.76.8l-3 10.26c-1.28 4.41-.81 8.48 1.34 11.48a11.65 11.65 0 0 0 9.24 4.57l16.11 1a1.44 1.44 0 0 1 1.14.62 1.5 1.5 0 0 1 .17 1.37 2 2 0 0 1-1.75 1.34l-16.73 1c-9.09.42-18.88 7.75-22.31 16.7l-1.21 3.16a.9.9 0 0 0 .79 1.22h57.63a1.55 1.55 0 0 0 1.54-1.17 41.34 41.34 0 0 0-39.76-52.48Z" style="fill:#f9ab41" transform="translate(.002 13.149) scale(.22907)"/>
+  </svg>
+  <text class="name" x="237" y="296" text-anchor="middle">Cloudflare</text>
+  <line x1="297" y1="249" x2="343" y2="249" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+
+  <!-- pfSense -->
+  <svg x="374" y="198" width="60" height="60" viewBox="0 0 48 48">
+    <path d="M-114.729 135.472c22.452 0 41.807-6.967 58.065-20.129 16.258-13.16 27.87-30.967 34.064-52.645 6.194-21.677 4.645-39.484-3.87-52.645-8.517-13.161-24.775-20.129-47.227-20.129-22.451 0-41.806 6.968-58.064 20.13-16.258 13.16-27.097 30.967-33.29 52.644-6.194 21.678-5.42 39.484 3.87 52.645 7.743 13.936 23.226 20.13 46.452 20.13" style="fill:#2b40b5;stroke-width:7.74195" transform="matrix(.08 0 0 .08 23.052 23.04)"/>
+    <path d="m77.271-10.076 20.13-71.226h35.612l13.936-51.096c4.645-15.484 10.064-30.968 17.032-44.904 6.193-13.935 15.484-26.322 26.322-37.161 10.84-10.839 24.775-19.355 41.033-25.548 16.258-6.194 37.161-9.29 61.161-9.29 6.194 0 11.613 0 17.806.773-5.419-22.451-25.548-38.71-48.774-39.483h-499.355c-27.87 0-50.322 23.225-50.322 51.096v444.387l81.29-288.774h82.065l-10.839 37.936h1.548c4.646-5.42 10.84-10.065 18.581-15.484 7.742-5.42 15.484-10.065 24-14.71 8.516-4.645 17.806-7.742 27.871-10.838 10.064-3.097 20.129-3.871 30.194-3.871 21.677 0 39.483 3.87 54.967 10.838 15.484 6.968 27.097 17.807 36.387 30.968 7.742 11.613 12.387 25.548 14.71 41.806l6.194-4.645h-1.55z" style="fill:#1475cf;stroke-width:7.74195" transform="matrix(.08 0 0 .08 23.052 23.04)"/>
+    <path d="M305.658-172.657c-3.87-.774-8.516-1.548-13.935-1.548-13.936 0-25.549 3.097-34.839 9.29-8.516 6.194-16.258 18.581-21.677 37.936l-13.162 45.677h50.323l12.387 39.484-32.516 31.742h-50.323l-61.16 216.774h-88.26l61.161-216.774H79.594L72.626-5.43c0 1.549.774 3.871.774 5.42 1.549 17.806-.774 37.935-6.968 59.613-5.419 20.129-13.935 39.483-25.548 58.064C29.271 136.246 16.11 152.505 1.4 166.44c-15.484 13.936-32.516 25.549-51.097 34.065-18.58 8.516-37.935 12.387-58.838 12.387-18.58 0-34.839-3.097-49.549-8.516-14.71-5.42-24.774-15.484-30.967-29.42h-1.549l-38.71 137.033h490.065c27.871 0 51.097-22.452 51.097-51.097v-431.226c-2.323-.774-4.645-1.548-6.194-2.323" style="fill:#1c1275;stroke-width:7.74195" transform="matrix(.08 0 0 .08 23.052 23.04)"/>
+  </svg>
+  <text class="name" x="404" y="296" text-anchor="middle">pfSense</text>
+  <line x1="464" y1="249" x2="510" y2="249" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+
+  <!-- HAProxy -->
+  <svg x="541" y="198" width="60" height="60" viewBox="0 0 64 64">
+    <g fill="none" stroke-miterlimit="10">
+      <g stroke="#284a6a"><path d="M31.973 23.69l-6.65-7.518" stroke-width=".26"/><path d="M11 17.908l5.205 7.6" stroke-width=".13"/><g stroke-width=".26"><path d="M31.973 23.7l6.578-7.6m1.374 15.987l7.807-6.578m-7.807 6.568l7.807 6.867m-9.108 8.676l-6.65-7.373m-6.65 7.373l6.65-7.373m-15.76-1.592l7.518-6.578m-7.517-6.58l7.518 6.578m8.24-8.386l-15.76 1.807m15.76-1.806l15.76 1.807"/><path d="M39.925 32.077L38.55 16.1m1.375 15.977l-1.3 15.542"/><path d="M47.732 38.944l-15.76 1.3m-15.758-1.59l15.76 1.6"/><path d="M25.323 47.62l-1.6-15.542m1.6-15.905l-1.6 15.903"/></g></g>
+    </g>
+    <path d="M19.862 35.835l.053-7.6 7.605.053-.053 7.6zm8.228-8.372l.053-7.6 7.605.053-.053 7.6zm-.002 16.67l.053-7.6 7.605.053-.053 7.6zm8.3-8.37l.053-7.6 7.605.053-.053 7.6z" fill="#256ea5"/>
+    <path d="M35.95 18.744l.037-5.277 5.3.037-.037 5.277zm-13.25-.001l.037-5.277 5.3.037L28 18.78zm-9.172 9.4l.037-5.277 5.3.037-.037 5.277zM13.522 41.4l.055-5.277 5.298.055-.055 5.277zm31.598-.1l.037-5.277 5.3.037-.037 5.277zm.107-13.12l.055-5.277 5.298.055-.055 5.277z" fill="#3378bc"/>
+    <path d="M9.233 19.63l.024-3.47 3.463.024-.024 3.47zm6.77-7.062l.024-3.47 3.463.024-.024 3.47zm9.32-3.493l.024-3.47 3.463.024-.024 3.47zM7.194 29.24l.024-3.47 3.44.024-.024 3.47zm43.993-13.032l3.47-.024.024 3.463-3.47.024zm-6.773-7.18l3.47-.024.024 3.463-3.47.024zm-9.35-3.406l3.47-.024.024 3.463-3.47.024zm18.14 20.186l3.47-.024.024 3.463-3.47.024z" fill="#169bd6"/>
+    <path d="M22.627 50.4l.037-5.277 5.3.037-.037 5.277zm13.25 0l.037-5.277 5.3.037-.037 5.277z" fill="#3378bc"/>
+    <path d="M51.164 47.73l.024-3.47 3.463.024-.024 3.47zm-6.698 7.134l.024-3.47 3.463.024-.024 3.47zm-9.32 3.42l.024-3.47 3.463.024-.024 3.47zM53.202 38.12l.024-3.47 3.463.024-.024 3.47zM9.24 44.26l3.47-.024.024 3.463-3.47.024zm6.772 7.108l3.47-.024.024 3.463-3.47.024zm9.276 3.405l3.47-.024.024 3.463-3.47.024zM7.22 34.66l3.47-.024.024 3.463-3.47.024z" fill="#169bd6"/>
+    <path d="M16.33 3.73l1.88-.013.013 1.916-1.88.013zM27.942.034l1.88-.013.013 1.916-1.88.013zm6.115 1.846L34.07 0l1.916.013-.013 1.88zm11.643 56.654l1.88-.013.013 1.916-1.88.013zm-11.542 3.55l1.88-.013.013 1.916-1.88.013z" fill="#00a8da"/>
+  </svg>
+  <text class="name" x="571" y="296" text-anchor="middle">HAProxy</text>
+
+  <!-- Let's Encrypt feeds TLS certs into HAProxy -->
+  <line x1="571" y1="358" x2="571" y2="316" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <text class="small" x="593" y="342" text-anchor="start">TLS certs</text>
+  <svg x="545" y="366" width="52" height="52" viewBox="0 0 48 48">
+    <g style="stroke-width:10.2211">
+      <path fill="#ffa400" d="M344.592 276.957h-58.997v-30.291c0-24.191-19.685-43.876-43.876-43.876s-43.876 19.685-43.876 43.876v30.291h-58.997v-30.291c0-56.724 46.149-102.873 102.873-102.873 56.724 0 102.873 46.149 102.873 102.873z" style="stroke-width:104.472" transform="translate(.351 -1.28) scale(.09784)"/>
+      <path fill="#003a70" d="M368.389 276.957h-253.34c-10.816 0-19.665 8.85-19.665 19.665v187.406c0 10.816 8.849 19.666 19.665 19.666h253.34c10.816 0 19.665-8.85 19.665-19.666V296.622c0-10.816-8.849-19.665-19.665-19.665zm-113.83 123.044v25.393c0 7.087-5.749 12.837-12.837 12.837s-12.837-5.749-12.837-12.837v-25.389c-7.897-4.481-13.233-12.947-13.233-22.674 0-14.396 11.671-26.067 26.067-26.067s26.067 11.671 26.067 26.067c0 9.727-5.335 18.192-13.227 22.67z" style="stroke-width:104.472" transform="translate(.351 -1.28) scale(.09784)"/>
+    </g>
+  </svg>
+  <text class="name" x="571" y="454" text-anchor="middle">Let&#8217;s Encrypt</text>
+
+  <!-- Fan-out to multiple hosted sites on one IP -->
+  <line x1="607" y1="249" x2="766" y2="200" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <line x1="607" y1="249" x2="766" y2="258" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <line x1="607" y1="249" x2="766" y2="316" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <rect x="770" y="176" width="232" height="48" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.3" stroke-width="1.5"/>
+  <text class="be" x="886" y="206" text-anchor="middle">app.example.com</text>
+  <rect x="770" y="234" width="232" height="48" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.3" stroke-width="1.5"/>
+  <text class="be" x="886" y="264" text-anchor="middle">blog.example.com</text>
+  <rect x="770" y="292" width="232" height="48" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.3" stroke-width="1.5"/>
+  <text class="be" x="886" y="322" text-anchor="middle">another-domain.net</text>
+
+  <!-- Value line -->
+  <text class="cap" x="600" y="540" text-anchor="middle">Many domains and subdomains, one public IP &#8212; centralized SSL and routing.</text>
+
+  <!-- Footer -->
+  <g transform="translate(520.6 568) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="branding" x="620" y="595" text-anchor="middle">johnhringiv.com</text>
+</svg>

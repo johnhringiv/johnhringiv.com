@@ -1,0 +1,66 @@
+{
+  "name": "johnhringiv.com",
+  "version": "1.0.0",
+  "description": "This project is a web application built using PHP and JavaScript. It is configured to run with Nginx and PHP-FPM inside a Docker container.",
+  "main": "index.js",
+  "scripts": {
+    "build:dev": "mkdir -p www/generated && cp src/css/main.css www/generated/bundle.css && cp src/css/cissp-charts.css www/generated/cissp-charts.css && esbuild src/js/main.js --bundle --outfile=www/generated/bundle.js",
+    "build:prod": "mkdir -p www/generated && lightningcss --minify --bundle -o www/generated/bundle.css src/css/main.css && lightningcss --minify --bundle -o www/generated/cissp-charts.css src/css/cissp-charts.css && esbuild src/js/main.js --bundle --minify --outfile=www/generated/bundle.js && esbuild src/js/cissp-charts.js --bundle --minify --outfile=www/generated/cissp-charts.js",
+    "build:charts": "mkdir -p www/generated && esbuild src/js/cissp-charts.js --bundle --minify --outfile=www/generated/cissp-charts.js && lightningcss --minify --bundle -o www/generated/cissp-charts.css src/css/cissp-charts.css",
+    "build:charts:dev": "mkdir -p www/generated && esbuild src/js/cissp-charts.js --bundle --sourcemap --outfile=www/generated/cissp-charts.js && cp src/css/cissp-charts.css www/generated/cissp-charts.css",
+    "watch": "chokidar \"src/css/**/*.css\" \"src/js/*.js\" -c \"npm run build:dev\" --initial",
+    "generate": "npm run generate:shiki && npm run generate:mermaid",
+    "generate:shiki": "node scripts/generate_shiki_highlights.mjs",
+    "generate:mermaid": "node scripts/generate_mermaid_diagrams.js",
+    "test:e2e": "playwright test",
+    "test:e2e:quiet": "PLAYWRIGHT_JSON_OUTPUT_FILE=.build/test-results/results.json playwright test --reporter=dot,json",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:chromium": "playwright test --project=chromium",
+    "test:a11y": "playwright test tests/e2e/features/accessibility.spec.ts",
+    "test:smoke": "playwright test tests/e2e/smoke",
+    "test:report": "playwright show-report",
+    "test:docker": "./scripts/test-simple.sh"
+  },
+  "browserslist": [
+    "last 2 years",
+    "not dead"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnhringiv/johnhringiv.com.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/johnhringiv/johnhringiv.com/issues"
+  },
+  "homepage": "https://github.com/johnhringiv/johnhringiv.com#readme",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0",
+    "bootstrap-icons": "^1.11.3",
+    "cson": "^8.4.0",
+    "d3-array": "^3.2.4",
+    "d3-axis": "^3.0.0",
+    "d3-color": "^3.1.0",
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.1.0",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
+    "esbuild": "^0.27.2",
+    "lightningcss-cli": "^1.31.1",
+    "shiki": "^3.11.0",
+    "shiki-class-transformer": "^0.3.0",
+    "svg-sprite": "^2.0.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@lobehub/icons": "^5.10.0",
+    "@playwright/test": "^1.58.0",
+    "@types/css-tree": "^2.3.11",
+    "chokidar-cli": "^3.0.0",
+    "css-tree": "^3.1.0",
+    "glob": "^13.0.0",
+    "html-validator": "^6.0.1"
+  }
+}

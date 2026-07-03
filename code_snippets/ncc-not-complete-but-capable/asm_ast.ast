@@ -1,0 +1,30 @@
+# shiki: nolinenum
+Program
+├── FunctionDefinition: next
+│   ├── AllocateStack 16
+│   ├── Mov Data(counter) -> R10
+│   ├── Mov R10 -> Stack(-4)
+│   ├── Mov Data(counter) -> R10
+│   ├── Mov R10 -> Stack(-8)
+│   ├── Binary Add Imm(1) -> Stack(-8)
+│   ├── Mov Stack(-8) -> R10
+│   ├── Mov R10 -> Data(counter)
+│   ├── Mov Data(counter) -> AX
+│   └── Ret
+│
+├── FunctionDefinition: main
+│   ├── AllocateStack 16
+│   ├── Call next
+│   ├── Mov AX -> Stack(-4)
+│   ├── Mov Stack(-4) -> R10
+│   ├── Mov R10 -> Stack(-8)
+│   ├── Call next
+│   ├── Mov AX -> Stack(-12)
+│   ├── Mov Stack(-8) -> R10
+│   ├── Mov R10 -> Stack(-16)
+│   ├── Mov Stack(-12) -> R10
+│   ├── Binary Add R10 -> Stack(-16)
+│   ├── Mov Stack(-16) -> AX
+│   └── Ret
+│
+└── StaticVariable: counter (init: 0)

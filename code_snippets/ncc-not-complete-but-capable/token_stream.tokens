@@ -1,0 +1,8 @@
+# shiki: nolinenum
+[StaticKeyword, IntKeyword, Identifier("counter"), Assignment, ConstantInt("0"),
+ Semicolon, IntKeyword, Identifier("next"), OpenParen, VoidKeyword, CloseParen,
+ OpenBrace, Identifier("counter"), Increment, Semicolon, ReturnKeyword,
+ Identifier("counter"), Semicolon, CloseBrace, IntKeyword, Identifier("main"),
+ OpenParen, VoidKeyword, CloseParen, OpenBrace, ReturnKeyword, Identifier("next"),
+ OpenParen, CloseParen, Plus, Identifier("next"), OpenParen, CloseParen,
+ Semicolon, CloseBrace]

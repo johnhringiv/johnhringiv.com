@@ -1,0 +1,4 @@
+# shiki: nolinenum
+temp.1 = b * c
+temp.2 = a + temp.1
+Copy temp.2 -> x

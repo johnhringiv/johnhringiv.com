@@ -1,0 +1,36 @@
+{
+  "name": "llm-prompt",
+  "scopeName": "source.llm-prompt",
+  "patterns": [
+    {
+      "comment": "System message / instruction line (first line)",
+      "name": "support.type.llm-prompt",
+      "match": "^You are.*$"
+    },
+    {
+      "comment": "ALL CAPS section headers like QUESTION: OPTIONS: INSTRUCTIONS:",
+      "name": "entity.name.tag.llm-prompt",
+      "match": "^[A-Z][A-Z ]+:"
+    },
+    {
+      "comment": "Lettered options A. B. C. D.",
+      "name": "keyword.control.llm-prompt",
+      "match": "^[A-Z]\\."
+    },
+    {
+      "comment": "Placeholder slots like [question text]",
+      "name": "string.other.llm-prompt",
+      "match": "\\[[^\\]]+\\]"
+    },
+    {
+      "comment": "Bullet list markers",
+      "name": "punctuation.definition.list.llm-prompt",
+      "match": "^-(?= )"
+    },
+    {
+      "comment": "Example response value",
+      "name": "constant.language.llm-prompt",
+      "match": "(?<=Example response: )[A-Z](?:, [A-Z])*$"
+    }
+  ]
+}

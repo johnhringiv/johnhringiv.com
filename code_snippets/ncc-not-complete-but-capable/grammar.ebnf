@@ -1,0 +1,35 @@
+<program> ::= { <declaration> }
+<declaration> ::= <variable-declaration> | <function-declaration>
+<variable-declaration> ::= { <specifier> }+ <identifier> [ "=" <exp> ] ";"
+<function-declaration> ::= { <specifier> }+ <identifier> "(" <param-list> ")" ( <block> | ";" )
+<param-list> ::= "void" | "int" <identifier> { "," "int" <identifier> }
+<specifier> ::= "int" | "static" | "extern"
+<block> ::= "{" { <block-item> } "}"
+<block-item> ::= <statement> | <declaration>
+<for-init> ::= <variable-declaration> | [ <exp> ] ";"
+<statement> ::= "return" <exp> ";"
+            | <exp> ";"
+            | "if" "(" <exp> ")" <statement> [ "else" <statement> ]
+            | "goto" <identifier> ";"
+            | <identifier> ":" <statement>
+            | <block>
+            | "break" ";"
+            | "continue" ";"
+            | "while" "(" <exp> ")" <statement>
+            | "do" <statement> "while" "(" <exp> ")" ";"
+            | "for" "(" <for-init> [ <exp> ] ";" [ <exp> ] ")" <statement>
+            | "switch" "(" <exp> ")" <statement>
+            | "case" <exp> ":" <statement>
+            | "default" ":" <statement>
+            | ";"
+<exp> ::= <factor> | <exp> <binop> <exp> | <exp> <assign-op> <exp>
+       | <exp> "?" <exp> ":" <exp> | <exp> "++" | <exp> "--"
+<factor> ::= <int> | <identifier> | <unop> <factor> | "++" <factor> | "--" <factor> | "(" <exp> ")"
+          | <identifier> "(" [ <argument-list> ] ")"
+<argument-list> ::= <exp> { "," <exp> }
+<unop> ::= "-" | "~" | "!"
+<binop> ::= "-" | "+" | "*" | "/" | "%" | "&" | "|" | "^" | "<<" | ">>" | "&&" | "||"
+         | "==" | "!=" | "<" | "<=" | ">" | ">="
+<assign-op> ::= "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "<<=" | ">>="
+<identifier> ::= ? An identifier token ?
+<int> ::= ? A constant token ?

@@ -1,0 +1,20 @@
+# shiki: nolinenum
+Program
+├── VarDeclaration
+│   ├── name: counter
+│   └── init: Constant(0)
+├── FunDeclaration
+│   ├── name: next
+│   └── body:
+│       ├── Expression
+│       │   └── PostFix (Increment)
+│       │       └── Identifier("counter")
+│       └── Return
+│           └── Identifier("counter")
+└── FunDeclaration
+    ├── name: main
+    └── body:
+        └── Return
+            └── Binary (Add)
+                ├── FunctionCall: next
+                └── FunctionCall: next

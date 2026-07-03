@@ -1,0 +1,9 @@
+flowchart LR
+    A[Source .c] --> B[Lexer]
+    B -->|Tokens| C[Parser]
+    C -->|Abstract AST| D[Validator]
+    D -->|Typechecked AST & Symbol Table| E[Tackifier]
+    E -->|TACKY IR| F[Codegen]
+    F -->|Assembly AST| G[Emitter]
+    G -->|Object File| H[Linker]
+    H --> I[Executable]

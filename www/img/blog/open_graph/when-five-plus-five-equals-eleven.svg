@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .title { font-family: Georgia, 'Times New Roman', serif; font-size: 40px; font-weight: bold; fill: #2a2520; }
+      .hook  { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; fill: #5c4033; }
+      .mono  { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 34px; fill: #2a2520; }
+      .code  { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 28px; fill: #dbd7ca; }
+      .kw { fill: #e88388; } .num { fill: #5fc0b4; } .pun { fill: #7a7a7a; }
+      .cmt { fill: #8a9b8a; } .base { fill: #dbd7ca; }
+      .ask  { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-style: italic; fill: #5c4033; }
+      .branding { font-family: Georgia, 'Times New Roman', serif; font-size: 16px; fill: #5c4033; }
+    </style>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
+      <path d="M0,0 L6.5,3 L0,6 Z" fill="#0bab64"/>
+    </marker>
+  </defs>
+
+  <!-- Parchment background + green accent bars -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+  <rect x="0" y="0"   width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Title + hook -->
+  <text class="title" x="600" y="54" text-anchor="middle">When 5 + 5 Equals 11</text>
+  <text class="hook"  x="600" y="84" text-anchor="middle">Reflections on Writing a C Compiler, Part One</text>
+
+  <!-- Code box -->
+  <rect x="90" y="180" width="510" height="220" rx="10" fill="#221811"/>
+  <text class="code" x="120" y="242" xml:space="preserve"><tspan class="kw">int</tspan><tspan class="base"> i </tspan><tspan class="pun">=</tspan><tspan class="num"> 5</tspan><tspan class="pun">;</tspan></text>
+  <text class="code" x="120" y="298" xml:space="preserve"><tspan class="kw">int</tspan><tspan class="base"> r </tspan><tspan class="pun">=</tspan><tspan class="base"> i </tspan><tspan class="pun">+</tspan><tspan class="base"> i</tspan><tspan class="pun">++;</tspan></text>
+  <text class="code" x="120" y="356" xml:space="preserve"><tspan class="cmt">// r == ?</tspan></text>
+
+  <!-- Arrows fanning to the candidate answers (no answer revealed) -->
+  <line x1="610" y1="288" x2="700" y2="227" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <line x1="610" y1="290" x2="700" y2="303" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+  <line x1="610" y1="292" x2="700" y2="379" stroke="#0bab64" stroke-width="4" marker-end="url(#ah)"/>
+
+  <!-- Candidate answers, all neutral -->
+  <rect x="712" y="196" width="396" height="62" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.25" stroke-width="1.5"/>
+  <text class="mono" x="736" y="238">r = 10 <tspan fill="#5c4033" fill-opacity="0.6">?</tspan></text>
+  <rect x="712" y="272" width="396" height="62" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.25" stroke-width="1.5"/>
+  <text class="mono" x="736" y="314">r = 11 <tspan fill="#5c4033" fill-opacity="0.6">?</tspan></text>
+  <rect x="712" y="348" width="396" height="62" rx="10" fill="#e7dcc6" stroke="#5c4033" stroke-opacity="0.25" stroke-width="1.5"/>
+  <text class="mono" x="736" y="390">r = <tspan fill="#5c4033" fill-opacity="0.6">???</tspan></text>
+
+  <!-- Teaser prompt -->
+  <text class="ask" x="600" y="492" text-anchor="middle">How complex can a five-character expression be?</text>
+
+  <!-- Footer -->
+  <g transform="translate(520.6 563) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="branding" x="620" y="590" text-anchor="middle">johnhringiv.com</text>
+</svg>

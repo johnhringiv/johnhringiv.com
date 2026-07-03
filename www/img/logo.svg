@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="IV burgee monogram">
+    <title>Burgee IV — open top, wide serif I flush with top edge</title>
+
+    <!-- Solid gold pennant base mathematically centered -->
+    <path d="M96 116 L416 116 L256 396 Z"
+          fill="#f5c518"
+          stroke="#f5c518"
+          stroke-width="36"
+          stroke-linejoin="round"/>
+
+    <!-- Green 'V' border (only on the two descending sides) -->
+    <path d="M96 116 L256 396 L416 116"
+          fill="none"
+          stroke="#0b6b3a"
+          stroke-width="36"
+          stroke-linejoin="round"
+          stroke-linecap="round"/>
+
+    <!-- Serif "I" shifted up to be perfectly flush with the top boundary -->
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z"
+          fill="#0b6b3a"
+          stroke="#0b6b3a"
+          stroke-width="4"
+          stroke-linejoin="round"/>
+</svg>

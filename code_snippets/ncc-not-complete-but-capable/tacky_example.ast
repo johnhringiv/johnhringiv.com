@@ -1,0 +1,16 @@
+# shiki: nolinenum
+  Program
+├── FunctionDefinition: next
+│   ├── Copy counter -> postfix_org.1
+│   ├── Binary Add counter, 1 -> postfix_new.1
+│   ├── Copy postfix_new.1 -> counter
+│   └── Return counter
+│
+├── FunctionDefinition: main
+│   ├── FunCall next() -> call.1
+│   ├── Copy call.1 -> binary_left.1
+│   ├── FunCall next() -> call.2
+│   ├── Binary Add binary_left.1, call.2 -> temp.1
+│   └── Return temp.1
+│
+└── StaticVariable: counter (init: 0)

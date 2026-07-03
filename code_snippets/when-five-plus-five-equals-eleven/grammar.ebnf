@@ -1,0 +1,31 @@
+#shiki: nolinenum
+<program> ::= <function>
+<function> ::= "int" <identifier> "(" "void" ")" <block>
+<block> ::= "{" { <block-item> } "}"
+<block-item> ::= <statement> | <declaration>
+<declaration> ::= "int" <identifier> [ "=" <exp> ] ";"
+<for-init> ::= <declaration> | [ <exp> ] ";"
+<statement> ::= "return" <exp> ";"
+            | <exp> ";"
+            | "if" "(" <exp> ")" <statement> [ "else" <statement> ]
+            | "goto" <identifier> ";"
+            | <identifier> ":" <statement>
+            | <block>
+            | "break" ";"
+            | "continue" ";"
+            | "while" "(" <exp> ")" <statement>
+            | "do" <statement> "while" "(" <exp> ")" ";"
+            | "for" "(" <for-init> [ <exp> ] ";" [ <exp> ] ")" <statement>
+            | "switch" "(" <exp> ")" <statement>
+            | "case" <exp> ":" <statement>
+            | "default" ":" <statement>
+            | ";"
+<exp> ::= <factor> | <exp> <binop> <exp> | <exp> <assign-op> <exp>
+       | <exp> "?" <exp> ":" <exp> | <exp> "++" | <exp> "--"
+<factor> ::= <int> | <identifier> | <unop> <factor> | "++" <factor> | "--" <factor> | "(" <exp> ")"
+<unop> ::= "-" | "~" | "!"
+<binop> ::= "-" | "+" | "*" | "/" | "%" | "&" | "|" | "^" | "<<" | ">>" | "&&" | "||"
+         | "==" | "!=" | "<" | "<=" | ">" | ">="
+<assign-op> ::= "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "<<=" | ">>="
+<identifier> ::= ? An identifier token ?
+<int> ::= ? A constant token ?

@@ -1,0 +1,30 @@
+.build/
+node_modules/
+
+# generated files
+www/generated/
+www/sitemap.xml
+
+# Ignore most of .idea, but allow select settings to sync
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/dictionaries
+!.idea/misc.xml
+
+# Ignore all module files
+*.iml
+
+# Docker images
+*.img
+
+notes/
+.playwright-mcp/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Playwright test artifacts (in .build/)
+tests/screenshots/

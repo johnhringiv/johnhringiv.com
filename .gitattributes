@@ -1,0 +1,11 @@
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+# SVGs are text — versioned in Git directly, not LFS
+*.svg text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.PNG filter=lfs diff=lfs merge=lfs -text
+*.ico filter=lfs diff=lfs merge=lfs -text
+package-lock.json -diff
+# Mark code_snippets directory as documentation/vendored for language stats
+code_snippets/** linguist-documentation
+data/cissp_results.json filter=lfs diff=lfs merge=lfs -text

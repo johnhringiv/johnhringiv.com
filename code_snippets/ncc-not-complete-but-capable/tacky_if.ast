@@ -1,0 +1,7 @@
+# shiki: nolinenum
+JumpIfZero condition -> else_label
+  ... then block ...
+Jump -> end_label
+Label(else_label)
+  ... else block ...
+Label(end_label)

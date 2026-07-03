@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .title { font-family: Georgia, 'Times New Roman', serif; font-size: 40px; font-weight: bold; fill: #2a2520; }
+      .hook  { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; fill: #5c4033; }
+      .code  { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 22px; fill: #dbd7ca; }
+      .out   { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 32px; fill: #dbd7ca; }
+      .kw { fill: #e88388; } .num { fill: #5fc0b4; } .pun { fill: #7a7a7a; }
+      .fn { fill: #95c777; } .base { fill: #dbd7ca; } .par { fill: #d9a97a; }
+      .ask  { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-style: italic; fill: #5c4033; }
+      .branding { font-family: Georgia, 'Times New Roman', serif; font-size: 16px; fill: #5c4033; }
+    </style>
+  </defs>
+
+  <!-- Parchment background + green accent bars -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+  <rect x="0" y="0"   width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Title + hook -->
+  <text class="title" x="600" y="54" text-anchor="middle">A Subtle Python Threading Bug</text>
+  <text class="hook"  x="600" y="84" text-anchor="middle">That Isn&#8217;t About Threading</text>
+
+  <!-- Culprit code -->
+  <rect x="120" y="116" width="960" height="96" rx="10" fill="#221811"/>
+  <text class="code" x="146" y="154" xml:space="preserve"><tspan class="base">threads = [Thread(target=</tspan><tspan class="kw">lambda</tspan><tspan class="base">: results.append(</tspan><tspan class="fn">sum</tspan><tspan class="base">(</tspan><tspan class="par">batch</tspan><tspan class="base">)))</tspan></text>
+  <text class="code" x="146" y="188" xml:space="preserve"><tspan class="base">           </tspan><tspan class="kw">for</tspan><tspan class="par"> batch</tspan><tspan class="kw"> in</tspan><tspan class="base"> np.array_split(nums, </tspan><tspan class="num">8</tspan><tspan class="base">)]</tspan></text>
+
+  <!-- Result mismatch (terminal-style) -->
+  <rect x="300" y="270" width="600" height="150" rx="12" fill="#221811"/>
+  <text class="out" x="332" y="324" xml:space="preserve"><tspan class="par">expected</tspan><tspan class="base">  </tspan><tspan class="fn">1999000</tspan></text>
+  <text class="out" x="332" y="376" xml:space="preserve"><tspan class="par">got     </tspan><tspan class="base">  </tspan><tspan class="kw">3749000</tspan><tspan class="base">  </tspan><tspan class="kw">&#10007;</tspan></text>
+
+  <!-- Teaser prompt -->
+  <text class="ask" x="600" y="478" text-anchor="middle">Same answer every run &#8212; so it isn&#8217;t a race. Then what is it?</text>
+
+  <!-- Footer -->
+  <g transform="translate(520.6 563) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="branding" x="620" y="590" text-anchor="middle">johnhringiv.com</text>
+</svg>

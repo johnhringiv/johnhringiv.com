@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .title { font-family: Georgia, 'Times New Roman', serif; font-size: 38px; font-weight: bold; fill: #2a2520; }
+      .subtitle { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; fill: #5c4033; }
+      .axis-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #5c4033; fill-opacity: 0.6; }
+      .tick-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #5c4033; fill-opacity: 0.5; }
+      .model-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; fill: #2a2520; fill-opacity: 0.8; }
+      .grid { stroke: #5c4033; stroke-opacity: 0.1; stroke-width: 1; }
+      .branding { font-family: Georgia, 'Times New Roman', serif; font-size: 16px; fill: #5c4033; }
+    </style>
+  </defs>
+
+  <!-- Parchment Background -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+
+  <!-- Green accent bars -->
+  <rect x="0" y="0" width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Title + Subtitle -->
+  <text class="title" x="600" y="52" text-anchor="middle">Small Brains, Big Test</text>
+  <text class="subtitle" x="600" y="80" text-anchor="middle">Can Small LLMs Pass the CISSP?</text>
+
+  <!-- Chart area: x=130..1100, y=100..560 => 970w x 460h -->
+  <!-- Y-axis: Accuracy 20%-85%, X-axis: Tokens/sec 60-260 -->
+  <!-- Scale: x = 130 + (toks - 60) * (970/200) = 130 + (toks-60)*4.85 -->
+  <!-- Scale: y = 560 - (acc - 20) * (460/65) = 560 - (acc-20)*7.077 -->
+
+  <!-- Grid lines -->
+  <line class="grid" x1="130" y1="135" x2="1100" y2="135"/><!-- 80% -->
+  <line class="grid" x1="130" y1="206" x2="1100" y2="206"/><!-- 70% -->
+  <line class="grid" x1="130" y1="277" x2="1100" y2="277"/><!-- 60% -->
+  <line class="grid" x1="130" y1="348" x2="1100" y2="348"/><!-- 50% -->
+  <line class="grid" x1="130" y1="418" x2="1100" y2="418"/><!-- 40% -->
+  <line class="grid" x1="130" y1="489" x2="1100" y2="489"/><!-- 30% -->
+
+  <!-- Y-axis tick labels -->
+  <text class="tick-label" x="122" y="139" text-anchor="end">80%</text>
+  <text class="tick-label" x="122" y="210" text-anchor="end">70%</text>
+  <text class="tick-label" x="122" y="281" text-anchor="end">60%</text>
+  <text class="tick-label" x="122" y="352" text-anchor="end">50%</text>
+  <text class="tick-label" x="122" y="422" text-anchor="end">40%</text>
+  <text class="tick-label" x="122" y="493" text-anchor="end">30%</text>
+
+  <!-- X-axis tick labels -->
+  <text class="tick-label" x="227" y="580" text-anchor="middle">80</text>
+  <text class="tick-label" x="421" y="580" text-anchor="middle">120</text>
+  <text class="tick-label" x="615" y="580" text-anchor="middle">160</text>
+  <text class="tick-label" x="809" y="580" text-anchor="middle">200</text>
+  <text class="tick-label" x="1003" y="580" text-anchor="middle">240</text>
+
+  <!-- Axis labels -->
+  <text class="axis-label" x="615" y="598" text-anchor="middle">Tokens / second</text>
+  <text class="axis-label" x="45" y="330" text-anchor="middle" transform="rotate(-90 45 330)">Accuracy (%)</text>
+
+  <!-- Bubbles (large to small for z-order) -->
+
+  <!-- Ministral 8B: 81.9%, 103 toks, 20.0GB — orange -->
+  <circle cx="339" cy="122" r="18" fill="#ab4700" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="360" y="114" text-anchor="start">Ministral 8B</text>
+
+  <!-- Qwen3 8B: 80.8%, 106 toks, 17.9GB — crimson -->
+  <circle cx="353" cy="130" r="17" fill="#ab366e" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="374" y="138" text-anchor="start">Qwen3 8B</text>
+
+  <!-- Llama 3.1 8B: 72.8%, 109 toks, 18.0GB — indigo -->
+  <circle cx="368" cy="186" r="17" fill="#515bc3" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="389" y="192" text-anchor="start">Llama 3.1 8B</text>
+
+  <!-- DeepSeek R1: 76.8%, 106 toks, 17.9GB — crimson -->
+  <circle cx="353" cy="158" r="17" fill="#ab366e" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="374" y="158" text-anchor="start">DeepSeek R1</text>
+
+  <!-- Mistral 7B: 49.6%, 82 toks, 17.0GB — orange -->
+  <circle cx="237" cy="351" r="16" fill="#ab4700" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="257" y="348" text-anchor="start">Mistral 7B</text>
+
+  <!-- Gemma 3n E4B: 74.3%, 93 toks, 16.1GB — teal -->
+  <circle cx="290" cy="176" r="16" fill="#007e72" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="265" y="160" text-anchor="end">Gemma 3n E4B</text>
+
+  <!-- Gemma 3n E2B: 71.0%, 92 toks, 11.6GB — teal -->
+  <circle cx="285" cy="199" r="13" fill="#007e72" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="260" y="205" text-anchor="end">Gemma 3n E2B</text>
+
+  <!-- Gemma 3 4B: 69.8%, 109 toks, 11.6GB — blue -->
+  <circle cx="368" cy="207" r="13" fill="#116bb5" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="389" y="214" text-anchor="start">Gemma 3 4B</text>
+
+  <!-- Qwen3 4B: 75.9%, 178 toks, 11.3GB — crimson -->
+  <circle cx="702" cy="165" r="13" fill="#ab366e" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="719" y="158" text-anchor="start">Qwen3 4B</text>
+
+  <!-- Ministral 3B: 74.2%, 204 toks, 11.5GB — orange -->
+  <circle cx="828" cy="176" r="13" fill="#ab4700" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="845" y="172" text-anchor="start">Ministral 3B</text>
+
+  <!-- Phi-4 Mini: 65.1%, 147 toks, 11.3GB — violet -->
+  <circle cx="552" cy="241" r="13" fill="#7652ac" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="540" y="227" text-anchor="end">Phi-4 Mini</text>
+
+  <!-- SmolLM3 3B: 63.5%, 149 toks, 9.5GB — sage -->
+  <circle cx="562" cy="252" r="12" fill="#557432" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="545" y="266" text-anchor="end">SmolLM3 3B</text>
+
+  <!-- Llama 3.2 3B: 63.5%, 157 toks, 9.9GB — indigo -->
+  <circle cx="600" cy="252" r="12" fill="#515bc3" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="616" y="260" text-anchor="start">Llama 3.2 3B</text>
+
+  <!-- Qwen3 1.7B: 69.0%, 240 toks, 6.8GB — crimson -->
+  <circle cx="1003" cy="213" r="10" fill="#ab366e" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="1017" y="210" text-anchor="start">Qwen3 1.7B</text>
+
+  <!-- Llama 3.2 1B: 25.0%, 249 toks, 5.9GB — indigo -->
+  <circle cx="1047" cy="524" r="9" fill="#515bc3" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="1060" y="522" text-anchor="start">Llama 3.2 1B</text>
+
+  <!-- Gemma 3 1B: 45.8%, 160 toks, 5.1GB — blue -->
+  <circle cx="615" cy="377" r="8" fill="#116bb5" stroke="#D4C4A8" stroke-width="1.5"/>
+  <text class="model-label" x="627" y="374" text-anchor="start">Gemma 3 1B</text>
+
+  <!-- Branding -->
+  <g transform="translate(520.6 588) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="branding" x="615" y="614" text-anchor="middle">johnhringiv.com</text>
+</svg>

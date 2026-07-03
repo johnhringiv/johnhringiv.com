@@ -1,0 +1,211 @@
+/* ── Buttons ── */
+.cissp-btn {
+    padding: 0.2rem 0.6rem; font-size: 0.78rem; border-radius: 4px; cursor: pointer;
+    border: 1px solid oklch(75% 0.04 75); background: oklch(93% 0.02 85); color: oklch(35% 0.04 75);
+    transition: background 0.15s, border-color 0.15s;
+}
+.cissp-btn:hover { background: oklch(88% 0.03 80); border-color: oklch(65% 0.05 75); }
+.cissp-btn-active { background: oklch(60% 0.17 155); color: #fff; border-color: oklch(55% 0.17 155); }
+.cissp-btn-active:hover { background: oklch(55% 0.17 155); }
+/* ── Pills ── */
+.cissp-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.cissp-pill {
+    padding: 0.15rem 0.6rem; border-radius: 999px; cursor: pointer; font-size: 0.76rem;
+    border: 1.5px solid; transition: background 0.12s, color 0.12s;
+    user-select: none; line-height: 1.4;
+}
+.cissp-pill.active { color: #fff; }
+.cissp-pill:not(.active) { background: transparent; }
+/* ── Quant section ── */
+.cissp-quant-section {
+    display: flex; flex-direction: column; gap: 0.35rem;
+    margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid #e8e8e8;
+    margin-bottom: 1rem;
+}
+.cissp-quant-label { font-size: 0.75rem; color: #666; }
+.cissp-quant-ext-row { padding-left: 0; }
+.cissp-chart-section figcaption { text-align: center; }
+.cissp-placeholder { color: #888; font-style: italic; font-size: 0.875rem; margin: 0.5rem 0; }
+/* ── Chart controls ── */
+.cissp-chart-controls { margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.cissp-ctrl-label { font-size: 0.85rem; color: #555; }
+.cissp-axis-label { font-size: 12px; fill: #555; }
+.cissp-grid line { stroke: #e8e8e8; }
+.cissp-grid path { display: none; }
+.cissp-quant-panels { display: flex; flex-direction: column; gap: 2rem; }
+.cissp-delta-title-row { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.cissp-delta-title-row .cissp-panel-title { margin-bottom: 0; }
+.cissp-delta-toggle-row { display: flex; gap: 0.35rem; }
+.cissp-delta-toggle {
+    padding: 0.1rem 0.55rem; border-radius: 999px; cursor: pointer;
+    font-size: 0.75rem; font-weight: 600; border: 1.5px solid #999;
+    background: transparent; color: #999; transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.cissp-delta-toggle.active {
+    background: #555; border-color: #555; color: #fff;
+}
+.cissp-panel-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: #555; }
+.cissp-panel-note { font-size: 0.8rem; color: oklch(50% 0.02 85); margin: 0.25rem 0 0; text-align: center; }
+.cissp-tooltip {
+    position: absolute; background: rgba(20,20,20,0.92); color: #fff;
+    padding: 0.4rem 0.65rem; border-radius: 5px; font-size: 0.8rem;
+    pointer-events: none; display: none; z-index: 9999; line-height: 1.5;
+    max-width: 260px;
+}
+.cissp-chart-section { margin-bottom: 3rem; overflow-x: auto; }
+.cissp-chart-section:has(#cissp-heatmap) { margin-bottom: 0.5rem; }
+.cissp-chart-section h3 { margin-top: 0; }
+/* ── Sortable tables ── */
+.cissp-th-sortable { cursor: pointer; white-space: nowrap; user-select: none; }
+.cissp-th-sortable:hover { background: rgba(0,0,0,0.04); }
+.cissp-sort-ind { font-size: 0.7em; color: #bbb; margin-left: 2px; }
+.cissp-family-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 5px; vertical-align: middle; flex-shrink: 0;
+}
+/* ── Table captions ── */
+#cissp-table-models caption,
+#cissp-table-baseline caption,
+#cissp-table-quant caption {
+    caption-side: bottom;
+    text-align: center;
+    font-size: 0.8rem;
+    color: oklch(50% 0.02 85);
+    padding: 0.4rem 0.75rem 0.5rem;
+}
+#cissp-table-models caption {
+    background: oklch(60% 0.17 155 / 0.07);
+    border-bottom: 1px solid oklch(60% 0.17 155 / 0.2);
+}
+/* ── Scrollable containers (shared scrollbar styling) ── */
+.cissp-chart-section,
+.cissp-table-wrapper,
+.table-responsive,
+#cissp-heatmap {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(70% 0.04 75) oklch(91% 0.02 85);
+}
+.cissp-chart-section::-webkit-scrollbar,
+.cissp-table-wrapper::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar,
+#cissp-heatmap::-webkit-scrollbar { height: 8px; }
+.cissp-chart-section::-webkit-scrollbar-track,
+.cissp-table-wrapper::-webkit-scrollbar-track,
+.table-responsive::-webkit-scrollbar-track,
+#cissp-heatmap::-webkit-scrollbar-track {
+    background: oklch(91% 0.02 85);
+    border-radius: 4px;
+}
+.cissp-chart-section::-webkit-scrollbar-thumb,
+.cissp-table-wrapper::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+#cissp-heatmap::-webkit-scrollbar-thumb {
+    background: oklch(70% 0.04 75);
+    border-radius: 4px;
+}
+.cissp-chart-section::-webkit-scrollbar-thumb:hover,
+.cissp-table-wrapper::-webkit-scrollbar-thumb:hover,
+.table-responsive::-webkit-scrollbar-thumb:hover,
+#cissp-heatmap::-webkit-scrollbar-thumb:hover { background: oklch(60% 0.05 75); }
+/* ── Heatmap container ── */
+#cissp-heatmap {
+    overflow-x: auto;
+    text-align: center;
+}
+/* ── Table responsive wrapper ── */
+.table-responsive { overflow-x: auto; }
+/* ── Baseline quant selector ── */
+.cissp-baseline-quant-sel {
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;
+}
+/* ── Baseline and quant delta tables ── */
+#cissp-table-baseline,
+#cissp-table-quant {
+    width: auto;
+    margin: 0 auto;
+}
+/* ── Model table row filter ── */
+.cissp-table-wrapper {
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    border: 1px solid oklch(60% 0.17 155 / 0.35);
+    margin-bottom: 0.25rem;
+}
+#cissp-table-models {
+    font-size: 0.875rem; border-collapse: collapse; width: 100%; margin-bottom: 0;
+}
+#cissp-table-models th {
+    padding: 0.5rem 0.75rem;
+    background: oklch(60% 0.17 155 / 0.18);
+    border-bottom: 2px solid oklch(60% 0.17 155 / 0.45);
+    white-space: nowrap;
+    text-align: left;
+    color: oklch(28% 0.12 155);
+}
+#cissp-table-models td {
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid oklch(90% 0.025 85);
+    vertical-align: middle;
+}
+#cissp-table-models tbody tr { cursor: pointer; user-select: none; }
+#cissp-table-models tbody tr:last-child td { border-bottom: none; }
+#cissp-table-models tbody tr:nth-child(odd) td { background-color: oklch(89% 0.04 88); }
+#cissp-table-models tbody tr:hover td { background-color: oklch(60% 0.17 155 / 0.12) !important; }
+.cissp-struck td { text-decoration: line-through; opacity: 0.45; }
+/* ── Domain table ── */
+#cissp-table-domains {
+    font-size: 0.875rem; border-collapse: collapse; width: 100%; margin-bottom: 0;
+}
+#cissp-table-domains th {
+    padding: 0.5rem 0.75rem;
+    background: oklch(60% 0.17 155 / 0.18);
+    border-bottom: 2px solid oklch(60% 0.17 155 / 0.45);
+    white-space: nowrap;
+    text-align: left;
+    color: oklch(28% 0.12 155);
+}
+#cissp-table-domains td {
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid oklch(90% 0.025 85);
+    vertical-align: middle;
+}
+#cissp-table-domains tbody tr:last-child td { border-bottom: none; }
+#cissp-table-domains tbody tr:nth-child(odd) td { background-color: oklch(89% 0.04 88); }
+#cissp-table-domains tbody tr:hover td { background-color: oklch(60% 0.17 155 / 0.12); }
+/* ── Table footnotes ── */
+.cissp-table-notes {
+    font-size: 0.78rem;
+    color: oklch(50% 0.02 85);
+    margin-top: 0.4rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+}
+.cissp-table-notes p { margin-bottom: 0.25rem; }
+.cissp-table-notes p:last-child { margin-bottom: 0; }
+/* ── Filter badge ── */
+#cissp-filter-badge {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: oklch(60% 0.17 155);
+    color: white;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 200;
+    box-shadow: 0 2px 8px oklch(0% 0 0 / 0.2);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+#cissp-filter-badge[hidden] { display: none; }
+#cissp-filter-badge a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.85;
+}
+#cissp-filter-badge a:hover { opacity: 1; }

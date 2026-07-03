@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .code-bg { fill: #221811; }
+      .code { font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; font-size: 14px; fill: #dbd7ca; }
+      /* C syntax - more vibrant */
+      .keyword { fill: #e88388; }
+      .function { fill: #95c777; }
+      .number { fill: #5fc0b4; }
+      .comment { fill: #8a9b8a; }
+      /* ASM syntax - more vibrant */
+      .instr { fill: #e88388; }
+      .reg { fill: #63b584; }
+      .punct { fill: #7a7a7a; }
+      /* Layout */
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 32px; font-weight: bold; fill: #2a2520; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; fill: #5c4033; }
+      .arrow { fill: #0bab64; }
+      .label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #dbd7ca; }
+    </style>
+  </defs>
+
+  <!-- Parchment Background -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+
+  <!-- Subtle border accent -->
+  <rect x="0" y="0" width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Title -->
+  <text class="title" x="600" y="50" text-anchor="middle">NCC: Not Complete, but Capable</text>
+  <text class="subtitle" x="600" y="80" text-anchor="middle">A C Compiler in Rust</text>
+
+  <!-- C Code Box -->
+  <rect class="code-bg" x="50" y="110" width="420" height="280" rx="8"/>
+  <text class="label" x="260" y="140" text-anchor="middle" >C Source</text>
+
+  <!-- C Code -->
+  <text class="code" x="70" y="175"><tspan class="keyword">static int</tspan> counter = <tspan class="number">0</tspan>;</text>
+  <text class="code" x="70" y="210"><tspan class="keyword">int</tspan>&#160;<tspan class="function">next</tspan>(<tspan class="keyword">void</tspan>) {</text>
+  <text class="code" x="100" y="235">counter++;</text>
+  <text class="code" x="100" y="260"><tspan class="keyword">return</tspan> counter;</text>
+  <text class="code" x="70" y="285">}</text>
+  <text class="code" x="70" y="320"><tspan class="keyword">int</tspan>&#160;<tspan class="function">main</tspan>(<tspan class="keyword">void</tspan>) {</text>
+  <text class="code" x="100" y="345"><tspan class="keyword">return</tspan>&#160;<tspan class="function">next</tspan>() + <tspan class="function">next</tspan>();</text>
+  <text class="code" x="70" y="370">}</text>
+
+  <!-- Arrow -->
+  <polygon class="arrow" points="530,245 600,245 600,230 650,255 600,280 600,265 530,265"/>
+  <text class="subtitle" x="590" y="310" text-anchor="middle" font-weight="bold">NCC</text>
+
+  <!-- Assembly Box -->
+  <rect class="code-bg" x="730" y="110" width="420" height="495" rx="8"/>
+  <text class="label" x="940" y="140" text-anchor="middle" >x86-64 Assembly</text>
+
+  <!-- Assembly Code -->
+  <text class="code" x="750" y="175"><tspan class="function">next</tspan><tspan class="punct">:</tspan></text>
+  <text class="code" x="770" y="195"><tspan class="instr">push</tspan> <tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="215"><tspan class="instr">mov</tspan> <tspan class="reg">%rsp</tspan>,<tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="235"><tspan class="instr">sub</tspan> $<tspan class="number">16</tspan>,<tspan class="reg">%rsp</tspan></text>
+  <text class="code" x="770" y="255"><tspan class="instr">mov</tspan> counter(<tspan class="reg">%rip</tspan>),<tspan class="reg">%r10d</tspan></text>
+  <text class="code" x="770" y="275"><tspan class="instr">addl</tspan> $<tspan class="number">1</tspan>,counter(<tspan class="reg">%rip</tspan>)</text>
+  <text class="code" x="770" y="295"><tspan class="instr">mov</tspan> counter(<tspan class="reg">%rip</tspan>),<tspan class="reg">%eax</tspan></text>
+  <text class="code" x="770" y="315"><tspan class="instr">pop</tspan> <tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="335"><tspan class="instr">ret</tspan></text>
+  <text class="code" x="750" y="365"><tspan class="function">main</tspan><tspan class="punct">:</tspan></text>
+  <text class="code" x="770" y="385"><tspan class="instr">push</tspan> <tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="405"><tspan class="instr">mov</tspan> <tspan class="reg">%rsp</tspan>,<tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="425"><tspan class="instr">call</tspan> <tspan class="function">next</tspan></text>
+  <text class="code" x="770" y="445"><tspan class="instr">mov</tspan> <tspan class="reg">%eax</tspan>,<tspan class="reg">%ebx</tspan></text>
+  <text class="code" x="770" y="465"><tspan class="instr">call</tspan> <tspan class="function">next</tspan></text>
+  <text class="code" x="770" y="485"><tspan class="instr">add</tspan> <tspan class="reg">%ebx</tspan>,<tspan class="reg">%eax</tspan></text>
+  <text class="code" x="770" y="505"><tspan class="instr">pop</tspan> <tspan class="reg">%rbp</tspan></text>
+  <text class="code" x="770" y="525"><tspan class="instr">ret</tspan></text>
+  <text class="code" x="750" y="555"><tspan class="function">.bss</tspan></text>
+  <text class="code" x="750" y="575"><tspan class="function">counter</tspan><tspan class="punct">:</tspan></text>
+  <text class="code" x="770" y="595">.zero <tspan class="number">4</tspan></text>
+
+  <!-- Footer -->
+  <g transform="translate(520.6 583) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="subtitle" x="620" y="610" text-anchor="middle">johnhringiv.com</text>
+</svg>

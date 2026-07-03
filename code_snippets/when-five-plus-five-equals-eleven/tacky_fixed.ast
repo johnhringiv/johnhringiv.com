@@ -1,0 +1,11 @@
+# shiki: nolinenum
+  Program
+├── FunctionDefinition: main
+│   ├── Copy 5 -> i.1                                     # i = 5
+│   ├── Copy i.1 -> binary_left.1                         # FIX: Capture left operand value (5) FIRST
+│   ├── Copy i.1 -> postfix_org.1                         # Save original value for i++ (5)
+│   ├── Binary Add i.1, 1 -> postfix_new.1                # Calculate i + 1 = 6
+│   ├── Copy postfix_new.1 -> i.1                         # Update i to 6 (side effect happens here)
+│   ├── Binary Add binary_left.1, postfix_org.1 -> temp.1 # Add: binary_left (5) + postfix_org (5) = 10
+│   ├── Copy temp.1 -> result.1                           # Store result
+│   └── Return result.1

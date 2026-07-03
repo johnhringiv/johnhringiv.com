@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .code-bg { fill: #2a2520; }
+      .code { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; fill: #dbd7ca; opacity: 0.6; }
+      .keyword { fill: #cb7676; }
+      .function { fill: #80a665; }
+      .number { fill: #4c9a91; }
+      .comment { fill: #758575; }
+      .title { font-family: 'Georgia', serif; font-size: 72px; font-weight: bold; fill: #2a2520; }
+      .author { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; fill: #5c4033; }
+      .tagline { font-family: 'Segoe UI', Arial, sans-serif; font-size: 22px; fill: #666; font-style: italic; }
+      .site { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; fill: #5c4033; }
+    </style>
+  </defs>
+
+  <!-- Parchment Background -->
+  <rect fill="#D4C4A8" width="1200" height="630"/>
+
+  <!-- Green accent bars -->
+  <rect x="0" y="0" width="1200" height="8" fill="#0bab64"/>
+  <rect x="0" y="622" width="1200" height="8" fill="#0bab64"/>
+
+  <!-- Decorative code snippets (faded, background texture) -->
+  <!-- Left side snippets -->
+  <g opacity="0.35">
+    <rect class="code-bg" x="-20" y="80" width="280" height="180" rx="6" transform="rotate(-8 100 170)"/>
+    <text class="code" x="10" y="115" transform="rotate(-8 100 170)"><tspan class="keyword">fn</tspan> compile(src: &amp;str) {</text>
+    <text class="code" x="30" y="135" transform="rotate(-8 100 170)"><tspan class="keyword">let</tspan> tokens = lex(src);</text>
+    <text class="code" x="30" y="155" transform="rotate(-8 100 170)"><tspan class="keyword">let</tspan> ast = parse(tokens);</text>
+    <text class="code" x="30" y="175" transform="rotate(-8 100 170)">codegen(ast)</text>
+    <text class="code" x="10" y="195" transform="rotate(-8 100 170)">}</text>
+  </g>
+
+  <g opacity="0.3">
+    <rect class="code-bg" x="-40" y="360" width="280" height="180" rx="6" transform="rotate(5 90 450)"/>
+  </g>
+  <!-- 27B · Q3 stat-wheel radar (brand green, from claude-vs-local's render_radar) -->
+  <g transform="rotate(5 90 450) translate(100 450) scale(0.9) translate(-110 -102)" opacity="0.6">
+    <!-- grid rings -->
+    <g fill="none" stroke="#dbd7ca" stroke-opacity="0.45" stroke-width="1">
+      <polygon points="110,88.8 122.6,97.9 117.8,112.7 102.2,112.7 97.4,97.9"/>
+      <polygon points="110,75.6 135.1,93.8 125.5,123.4 94.5,123.4 84.9,93.8"/>
+      <polygon points="110,62.4 147.7,89.8 133.3,134 86.7,134 72.3,89.8"/>
+      <polygon points="110,49.2 160.2,85.7 141,144.7 79,144.7 59.8,85.7"/>
+      <polygon points="110,36 172.8,81.6 148.8,155.4 71.2,155.4 47.2,81.6"/>
+    </g>
+    <!-- spokes -->
+    <g stroke="#dbd7ca" stroke-opacity="0.45" stroke-width="1">
+      <line x1="110" y1="102" x2="110" y2="36"/>
+      <line x1="110" y1="102" x2="172.8" y2="81.6"/>
+      <line x1="110" y1="102" x2="148.8" y2="155.4"/>
+      <line x1="110" y1="102" x2="71.2" y2="155.4"/>
+      <line x1="110" y1="102" x2="47.2" y2="81.6"/>
+    </g>
+    <!-- data polygon (brand green) -->
+    <polygon points="110,55.1 160.2,85.7 129.4,128.7 82.8,139.4 70.5,89.2"
+             fill="#0bab64" fill-opacity="0.45" stroke="#0bab64" stroke-width="2.5" stroke-linejoin="round"/>
+    <g fill="#0bab64">
+      <circle cx="110" cy="55.1" r="3"/><circle cx="160.2" cy="85.7" r="3"/><circle cx="129.4" cy="128.7" r="3"/><circle cx="82.8" cy="139.4" r="3"/><circle cx="70.5" cy="89.2" r="3"/>
+    </g>
+  </g>
+
+  <!-- Right side snippets -->
+  <g opacity="0.35">
+    <rect class="code-bg" x="940" y="60" width="280" height="180" rx="6" transform="rotate(6 1080 150)"/>
+    <text class="code" x="965" y="95" transform="rotate(6 1080 150)"><tspan class="function">main</tspan>:</text>
+    <text class="code" x="985" y="115" transform="rotate(6 1080 150)"><tspan class="keyword">push</tspan> %rbp</text>
+    <text class="code" x="985" y="135" transform="rotate(6 1080 150)"><tspan class="keyword">mov</tspan> %rsp,%rbp</text>
+    <text class="code" x="985" y="155" transform="rotate(6 1080 150)"><tspan class="keyword">call</tspan> <tspan class="function">init</tspan></text>
+    <text class="code" x="985" y="175" transform="rotate(6 1080 150)"><tspan class="keyword">pop</tspan> %rbp</text>
+    <text class="code" x="985" y="195" transform="rotate(6 1080 150)"><tspan class="keyword">ret</tspan></text>
+  </g>
+
+  <g opacity="0.3">
+    <rect class="code-bg" x="940" y="390" width="300" height="180" rx="6" transform="rotate(-5 1090 480)"/>
+    <text class="code" x="965" y="425" transform="rotate(-5 1090 480)"><tspan class="comment"># Threat Detection</tspan></text>
+    <text class="code" x="965" y="450" transform="rotate(-5 1090 480)"><tspan class="keyword">def</tspan> <tspan class="function">detect_anomaly</tspan>(event):</text>
+    <text class="code" x="985" y="475" transform="rotate(-5 1090 480)">score = model.predict(event)</text>
+    <text class="code" x="985" y="500" transform="rotate(-5 1090 480)"><tspan class="keyword">if</tspan> score > threshold:</text>
+    <text class="code" x="1005" y="525" transform="rotate(-5 1090 480)"><tspan class="keyword">return</tspan> <tspan class="function">Alert</tspan>(event)</text>
+  </g>
+
+  <!-- Main content area -->
+  <text class="title" x="600" y="260" text-anchor="middle">Technical Blog</text>
+
+  <!-- Decorative line -->
+  <rect x="400" y="285" width="400" height="3" fill="#0bab64" rx="1"/>
+
+  <text class="author" x="600" y="340" text-anchor="middle">John H. Ring IV, PhD</text>
+
+  <text class="tagline" x="600" y="390" text-anchor="middle">Computer Science · Cybersecurity · Compilers · AI</text>
+
+  <!-- Think → Explore → Build → Share flow -->
+  <g transform="translate(600, 490)">
+    <!-- Lightbulb - Think (Bootstrap icon, scaled) -->
+    <g transform="translate(-210, 0)">
+      <g transform="translate(-24, -28) scale(3)" fill="#0bab64">
+        <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+      </g>
+      <text class="tagline" y="50" text-anchor="middle" font-style="normal" font-size="16">Think</text>
+    </g>
+
+    <!-- Arrow 1 -->
+    <path d="M-155,0 L-120,0 M-130,-8 L-118,0 L-130,8" fill="none" stroke="#5c4033" stroke-width="2.5"/>
+
+    <!-- Compass - Explore (Bootstrap icon, scaled) -->
+    <g transform="translate(-70, 0)">
+      <g transform="translate(-24, -24) scale(3)" fill="#0bab64">
+        <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+        <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+      </g>
+      <text class="tagline" y="50" text-anchor="middle" font-style="normal" font-size="16">Explore</text>
+    </g>
+
+    <!-- Arrow 2 -->
+    <path d="M-15,0 L20,0 M10,-8 L22,0 L10,8" fill="none" stroke="#5c4033" stroke-width="2.5"/>
+
+    <!-- Gear - Build (Bootstrap gear-wide-connected, scaled) -->
+    <g transform="translate(70, 0)">
+      <g transform="translate(-24, -24) scale(3)" fill="#0bab64">
+        <path d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5m0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78zM5.048 3.967l-.087.065zm-.431.355A4.98 4.98 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8zm.344 7.646.087.065z"/>
+      </g>
+      <text class="tagline" y="50" text-anchor="middle" font-style="normal" font-size="16">Build</text>
+    </g>
+
+    <!-- Arrow 3 -->
+    <path d="M125,0 L160,0 M150,-8 L162,0 L150,8" fill="none" stroke="#5c4033" stroke-width="2.5"/>
+
+    <!-- Share nodes - (Bootstrap share icon, scaled) -->
+    <g transform="translate(210, 0)">
+      <g transform="translate(-30, -24) scale(3.75)" fill="#0bab64">
+        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+      </g>
+      <text class="tagline" y="50" text-anchor="middle" font-style="normal" font-size="16">Share</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <g transform="translate(520.6 563) scale(0.0815)">
+    <path d="M96 116 L416 116 L256 396 Z" fill="#f5c518" stroke="#f5c518" stroke-width="36" stroke-linejoin="round"/>
+    <path d="M96 116 L256 396 L416 116" fill="none" stroke="#0b6b3a" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 176 100 H 336 V 134 H 278 V 278 H 304 V 312 H 208 V 278 H 234 V 134 H 176 Z" fill="#0b6b3a" stroke="#0b6b3a" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <text class="site" x="620" y="590" text-anchor="middle">johnhringiv.com</text>
+</svg>
