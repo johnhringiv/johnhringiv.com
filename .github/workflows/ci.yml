@@ -21,10 +21,29 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps
-      # Builds the Docker image, starts the W3C validator + app container, and
-      # runs the full Playwright E2E suite against it (all 5 browser projects).
-      - run: npm run test:docker
+      - run: npx playwright install --with-deps chromium
+      # Building the image is itself a strong check: build_db.php's slug/date/
+      # og-image validation, responsive image generation, and shiki highlighting
+      # all run here and fail the build on any problem.
+      - name: Build image
+        run: docker build -t johnhringiv.com:latest .
+      # Start the container and run the Chromium smoke suite (all pages 200,
+      # CSS/JS/sprite load, no console errors, sprite completeness) against it.
+      # The full multi-browser + static-analysis suite (`npm run test:docker`)
+      # stays a local pre-push gate: several specs read built assets from
+      # www/generated/ on disk, which exists inside the image, not on a clean
+      # CI runner.
+      - name: Smoke test (Chromium)
+        run: |
+          docker run -d -p 8082:8080 --name johnhringiv-ci johnhringiv.com:latest
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8082/nginx-health >/dev/null && break
+            sleep 2
+          done
+          npx playwright test tests/e2e/smoke --project=chromium
+      - name: Stop container
+        if: always()
+        run: docker rm -f johnhringiv-ci || true
 
   publish:
     if: (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && (github.event_name == 'push' || github.event_name == 'schedule')
