@@ -1,6 +1,11 @@
 #!/bin/sh
 # Rolling deploy for johnhringiv.com's two-container HAProxy setup (no compose).
 #
+# No config file: the site has no secrets and there is exactly one production
+# host, so the values below are hardcoded as defaults. Every one is overridable
+# by an env var for one-offs — e.g. roll back with
+#   IMAGE=ghcr.io/johnhringiv/johnhringiv.com:sha-abc123 sh deploy.sh
+#
 # The host runs a primary and a backup app container behind HAProxy (pfSense);
 # HAProxy serves the primary and fails over to the backup when the primary's
 # /nginx-health check stops answering. This script recreates them ONE AT A
@@ -10,28 +15,21 @@
 # from the other.
 #
 # Usage:
-#   1. Copy .env.example to a private env file next to this script, fill it in,
-#      chmod 600 it.
-#   2. Optionally place a saved image tarball next to it (docker save output).
-#   3. sh deploy.sh [env-file] [image-tarball]
+#   sh deploy.sh                 # pull IMAGE and roll both containers
+#   sh deploy.sh <image-tarball> # load a saved image instead of pulling (offline)
 #
 # Idempotent: re-running recreates both containers on the current image.
 set -e
 
-ENV_FILE="${1:-.env}"
-IMAGE_TAR="${2:-}"
-
-[ -f "$ENV_FILE" ] || { echo "missing $ENV_FILE (copy .env.example and fill it in)"; exit 1; }
-
-# shellcheck disable=SC1090
-. "$ENV_FILE"
+IMAGE_TAR="${1:-}"
 
 IMAGE="${IMAGE:-ghcr.io/johnhringiv/johnhringiv.com:prod}"
 CONTAINER_PRIMARY="${CONTAINER_PRIMARY:-johnhringiv-primary}"
 CONTAINER_BACKUP="${CONTAINER_BACKUP:-johnhringiv-backup}"
-PORT_PRIMARY="${PORT_PRIMARY:-8080}"
-PORT_BACKUP="${PORT_BACKUP:-8081}"
+PORT_PRIMARY="${PORT_PRIMARY:-8080}"   # HAProxy primary backend
+PORT_BACKUP="${PORT_BACKUP:-8086}"     # HAProxy backup backend
 HEALTH_PATH="${HEALTH_PATH:-/nginx-health}"
+PUBLIC_URL="${PUBLIC_URL:-https://johnhringiv.com}"
 
 if [ -n "$IMAGE_TAR" ]; then
     docker load -i "$IMAGE_TAR"

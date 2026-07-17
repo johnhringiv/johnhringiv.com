@@ -3,12 +3,15 @@
 # self-heal: an unchanged tag with a container not running (typical after a
 # host reboot) also triggers a redeploy, which recreates both containers.
 #
+# No config file: the site has no secrets and there is one production host, so
+# the values below are hardcoded as defaults, each overridable by an env var.
+#
 # Runs from cron on the production host (the host has no inbound access, so
 # deploys are pull-based). An unchanged, healthy tag costs one manifest check
 # and one edge /health probe; layers only download when the Deploy workflow
 # has promoted a new image.
 #
-#   sh poll-deploy.sh [env-file]
+#   sh poll-deploy.sh
 #
 # Exit codes: 0 = no-op or successful deploy; 1 = unhealthy (a deploy ran but
 # the edge never came up, or the containers are running yet the edge is
@@ -16,18 +19,13 @@
 # Configure cron/mail to notify on non-zero exit.
 set -e
 
-ENV_FILE="${1:-.env}"
 DIR=$(dirname "$0")
-
-[ -f "$ENV_FILE" ] || { echo "missing $ENV_FILE"; exit 1; }
-
-# shellcheck disable=SC1090
-. "$ENV_FILE"
 
 IMAGE="${IMAGE:-ghcr.io/johnhringiv/johnhringiv.com:prod}"
 CONTAINER_PRIMARY="${CONTAINER_PRIMARY:-johnhringiv-primary}"
 CONTAINER_BACKUP="${CONTAINER_BACKUP:-johnhringiv-backup}"
 HEALTH_PATH="${HEALTH_PATH:-/nginx-health}"
+PUBLIC_URL="${PUBLIC_URL:-https://johnhringiv.com}"
 
 container_running() {
     [ "$(docker inspect "$1" --format '{{.State.Running}}' 2>/dev/null)" = "true" ]
@@ -68,7 +66,7 @@ else
 fi
 
 # deploy.sh health-gates each container locally as it recreates them.
-sh "$DIR/deploy.sh" "$ENV_FILE"
+sh "$DIR/deploy.sh"
 
 # Confirm the edge too (deploy.sh only checks localhost).
 if [ -n "$PUBLIC_URL" ]; then

@@ -37,29 +37,27 @@ you point the host at `:latest` — see below).
 
 ## Host setup (one time)
 
-Public repo → public image, so no registry auth needed on the host.
+Public repo → public image, so no registry auth needed on the host. **There
+are no secrets and no config file** — the site ships nothing sensitive and
+there's exactly one production host, so image, container names, ports
+(`8080` primary / `8086` backup), health path, and public URL are hardcoded
+as defaults in the scripts. Any of them is overridable by an env var for a
+one-off (see below), but nothing needs setting for a normal deploy.
 
-1. Copy `.env.example` to a private env file next to the scripts, fill it in,
-   lock it down:
+1. Press **Deploy** once to mint `:prod`, then run the first deploy by hand:
    ```sh
-   cp deploy/.env.example deploy/johnhringiv.env
-   $EDITOR deploy/johnhringiv.env      # set CONTAINER_*, PORT_*, PUBLIC_URL
-   chmod 600 deploy/johnhringiv.env
+   sh deploy/deploy.sh
    ```
-   `PORT_PRIMARY` / `PORT_BACKUP` must match the host ports HAProxy's primary
-   and backup backends target.
-2. Press **Deploy** once to mint `:prod`, then run the first deploy by hand:
-   ```sh
-   sh deploy/deploy.sh deploy/johnhringiv.env
+2. Schedule the poller (cron, every 5 min):
    ```
-3. Schedule the poller (cron, every 5 min):
-   ```
-   */5 * * * * cd /path/to/johnhringiv.com/deploy && sh poll-deploy.sh johnhringiv.env >> poll-deploy.log 2>&1
+   */5 * * * * cd /path/to/johnhringiv.com/deploy && sh poll-deploy.sh >> poll-deploy.log 2>&1
    ```
    Configure cron's `MAILTO` (or your mailer) so a non-zero exit pages you.
 
-To ship **every push to main** without pressing Deploy, set
-`IMAGE=…/johnhringiv.com:latest` in the env file — same poller, no button.
+To ship **every push to main** without pressing Deploy, point the poller at
+`:latest`: `IMAGE=ghcr.io/johnhringiv/johnhringiv.com:latest` in the cron line
+— same poller, no button. If the HAProxy backend ports ever change, override
+`PORT_PRIMARY` / `PORT_BACKUP` the same way rather than editing the script.
 
 ## Rolling update (why the site stays up)
 
@@ -102,13 +100,13 @@ the retagged `:prod` within one cycle. Or, on the host, pin `IMAGE` to a
 ## Offline / manual image (fallback)
 
 Build and `docker save` anywhere, copy the tarball to the host, and pass it as
-the second argument — the pull is skipped:
+the sole argument — the pull is skipped and the loaded image is used:
 
 ```sh
 docker build -t johnhringiv.com:local .
 docker save johnhringiv.com:local | gzip > site.tar.gz
 # on the host:
-IMAGE=johnhringiv.com:local sh deploy/deploy.sh deploy/johnhringiv.env site.tar.gz
+IMAGE=johnhringiv.com:local sh deploy/deploy.sh site.tar.gz
 ```
 
 This replaces the old `docker save` → copy `.img` → `docker load` → recreate-
