@@ -6,7 +6,7 @@ sits behind pfSense/Cloudflare with no inbound access, so CI publishes an
 image and the host polls for it.
 
 ```
-push to main ──► CI (test + build) ──► GHCR :latest / :sha-… / :1.2.0
+push to main ──► CI (test + build) ──► GHCR :latest / :sha-… / :v5
                                              │
                 Deploy workflow (button) ────┘ retag ──► GHCR :prod
                                                               │
@@ -25,7 +25,7 @@ builds and pushes to GHCR:
 
 - `ghcr.io/johnhringiv/johnhringiv.com:latest` — newest main
 - `…:sha-<commit>` — every commit (use these to roll back)
-- `…:1.2.0` — for `v*` git tags
+- `…:v5` — a `v*` git tag, verbatim (plain release number, no semver)
 
 A monthly scheduled run rebuilds so the base image picks up CVE fixes.
 

@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
-    tags: ["v*"] # release tags publish a matching image tag (v1.2.0 → :1.2.0)
+    tags: ["v*"] # a git tag publishes a matching image tag (v5 → :v5)
   pull_request:
   schedule:
     - cron: "17 4 3 * *" # monthly rebuild so the image picks up base-image CVE fixes
@@ -48,7 +48,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha
-            type=semver,pattern={{version}}
+            type=ref,event=tag  # git tag v5 -> image :v5 (plain release number, no semver)
       - uses: docker/build-push-action@v6
         with:
           context: .

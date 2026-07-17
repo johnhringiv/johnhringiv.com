@@ -76,7 +76,7 @@ The site ships as the self-contained Docker image above. In production the conta
 
 **Pipeline (pull-based).** The host has no inbound access, so deploys are pull-based:
 
-1. **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tests every push/PR (`npm run test:docker`) and, on push to `main` or a `v*` tag, builds and pushes the image to GHCR (`:latest`, `:sha-<commit>`, `:semver`).
+1. **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) tests every push/PR (`npm run test:docker`) and, on push to `main` or a `v*` tag, builds and pushes the image to GHCR (`:latest`, `:sha-<commit>`, and `:v5` for a `v*` git tag).
 2. **Deploy** ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) is a manual button that promotes a published image to `:prod` (rollback = promote an older `sha-…` tag).
 3. The **host** runs [`deploy/poll-deploy.sh`](deploy/poll-deploy.sh) on cron: it pulls `:prod`, runs the rolling `deploy.sh` when the digest changes, self-heals after a reboot, and health-checks the edge.
 
