@@ -65,16 +65,22 @@ The host runs **two** app containers behind HAProxy: a primary and a backup.
 HAProxy serves the primary and fails over to the backup when the primary's
 `/nginx-health` check (see `config/nginx.conf`) stops answering.
 
-`deploy.sh` recreates them **one at a time**, health-gating each:
+`deploy.sh` recreates them **one at a time**, gating each on health *and
+version*:
 
-1. **Backup first**, on the new image. Wait for `localhost:<backup>/nginx-health`.
-   The primary is untouched and still serving the old image throughout — if the
-   backup never comes up, the deploy aborts here and the site is unaffected.
+1. **Backup first**, on the new image. Wait until `localhost:<backup>/nginx-health`
+   returns 200 **and reports the exact version baked into the pulled image**
+   (`healthy <git-describe>`). The primary is untouched and still serving the
+   old image throughout — if the backup never comes up healthy on the expected
+   version, the deploy aborts here and the site is unaffected.
 2. **Then the primary.** While it's down, its health check fails and HAProxy
    fails over to the freshly-updated backup; once the primary is healthy again
    HAProxy returns to it.
 
-At every moment at least one healthy instance is serving → zero downtime.
+The version check (not just liveness) means a stale/half-broken container or a
+`:prod` tag that resolved to the wrong build can't pass the gate and take the
+primary down with it. At every moment at least one healthy instance is serving
+→ zero downtime.
 
 ## Continuous deploy loop
 

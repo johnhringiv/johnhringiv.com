@@ -37,9 +37,18 @@ else
     docker pull "$IMAGE" || echo "pull failed; will use local image $IMAGE if present"
 fi
 
-# Recreate one container and wait for it to answer /nginx-health locally.
-# Returns non-zero (and, under set -e, aborts the whole deploy) if it never
-# comes up — so a broken image can't take down both instances.
+# Version baked into this image (git describe, also in /nginx-health). We read
+# it straight from the image so each container can be checked against the build
+# we intend to ship — not just "is it up". Empty for pre-version images, in
+# which case the gate below degrades to a plain health check.
+EXPECTED_VERSION=$(docker run --rm --entrypoint cat "$IMAGE" \
+    /var/www/html/generated/version.txt 2>/dev/null | tr -d '[:space:]' || true)
+echo "$(date -u +%FT%TZ) deploying version ${EXPECTED_VERSION:-unknown}"
+
+# Recreate one container and wait until /nginx-health reports healthy AND is
+# serving EXPECTED_VERSION. Returns non-zero (and, under set -e, aborts the
+# whole deploy) if it never does — so a broken or wrong-version image can't
+# take down both instances. /nginx-health returns "healthy <version>".
 deploy_one() {
     name="$1"
     port="$2"
@@ -49,8 +58,14 @@ deploy_one() {
         -p "$port:8080" "$IMAGE" >/dev/null
     i=0
     while [ $i -lt 24 ]; do  # up to ~2 min
-        if curl -sf -m 5 "http://localhost:$port$HEALTH_PATH" >/dev/null 2>&1; then
-            echo "$(date -u +%FT%TZ) $name healthy"
+        body=$(curl -sf -m 5 "http://localhost:$port$HEALTH_PATH" 2>/dev/null || true)
+        if [ -n "$body" ]; then
+            reported=$(printf '%s' "$body" | awk '{print $2}')
+            if [ -n "$EXPECTED_VERSION" ] && [ "$reported" != "$EXPECTED_VERSION" ]; then
+                echo "$(date -u +%FT%TZ) FAILED: $name serving '$reported', expected '$EXPECTED_VERSION'"
+                return 1
+            fi
+            echo "$(date -u +%FT%TZ) $name healthy (version ${reported:-unknown})"
             return 0
         fi
         i=$((i + 1))
