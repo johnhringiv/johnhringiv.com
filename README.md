@@ -41,6 +41,10 @@ Then open <http://localhost:8082>.
 
 ### Build for another host
 
+In normal operation you don't build for the host by hand — CI builds and
+publishes the image to GHCR and the host pulls it (see [Deployment](#deployment)).
+For the offline fallback, save a tarball and copy it over:
+
 ```sh
 docker build -t johnhringiv.com:latest .
 docker save -o myimage johnhringiv.com:latest
@@ -68,7 +72,14 @@ The site ships as the self-contained Docker image above. In production the conta
 - **HAProxy (on pfSense)** — SSL termination and reverse proxy, with domain/subdomain routing
 - **Docker container** — the app (nginx + PHP-FPM, Alpine)
 
-**Zero-downtime updates:** two instances of the container run behind HAProxy — a **primary** and a **backup**. HAProxy serves the primary and fails over to the backup when the primary's health check (`/nginx-health`, in `config/nginx.conf`) stops responding. To deploy, build/load the new image and recreate the containers one at a time — while one restarts on the new version, HAProxy keeps serving from the other, so the site stays up.
+**Zero-downtime updates:** two instances of the container run behind HAProxy — a **primary** and a **backup**. HAProxy serves the primary and fails over to the backup when the primary's health check (`/nginx-health`, in `config/nginx.conf`) stops responding. `deploy/deploy.sh` recreates them one at a time — backup first, then primary, health-gating each — so while one restarts on the new version HAProxy keeps serving from the other and the site stays up.
+
+**Pipeline (pull-based, continuous deploy from `main`).** The host has no inbound access, so deploys are pull-based, and there's no manual promote step — every push to `main` that passes CI goes live within one poll cycle:
+
+1. **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) builds the image (validating `build_db.php`, image generation, shiki) and runs a Chromium smoke pass against the container on every push/PR; the full multi-browser `npm run test:docker` suite stays a local pre-push gate. On push to `main` (or a `v*` tag) it pushes to GHCR (`:latest`, `:sha-<commit>`, and `:v5` for a `v*` git tag).
+2. The **host** runs [`deploy/poll-deploy.sh`](deploy/poll-deploy.sh) on cron: it pulls `:latest`, runs the rolling `deploy.sh` when the digest changes, self-heals after a reboot, and health-checks the edge. `/nginx-health` reports the live build (`healthy <git-describe>`).
+
+Rollback is a host-side `sha-…` pin plus a `git revert`. Setup, rollback, and the offline-tarball fallback are documented in the **[deploy runbook](deploy/README.md)**.
 
 ## Development
 
@@ -77,6 +88,7 @@ See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** for local environment setup
 ## Documentation
 
 - **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** — local setup and build pipelines
+- **[deploy/README.md](deploy/README.md)** — deploy runbook (CI → GHCR → poll, continuous deploy from main, rollback)
 - **[CLAUDE.md](CLAUDE.md)** — architecture, conventions, and design decisions (data layer, OG image pipeline, asset versioning, icon system)
 - **[docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)** — content and visual style guide
 - **[docs/IMAGE_STRATEGY.md](docs/IMAGE_STRATEGY.md)** — responsive image / Open Graph strategy

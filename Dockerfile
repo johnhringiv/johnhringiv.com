@@ -41,6 +41,10 @@ RUN php scripts/generate_images_build.php
 # Build CSS and JS bundles (minified)
 RUN npm run build:prod
 
+# Version string baked into /nginx-health. `--tags --always` only reads history
+# (no working-tree check — this stage is a partial checkout), so no --dirty.
+RUN git describe --tags --always > www/generated/version.txt
+
 FROM alpine:latest
 
 WORKDIR /var/www/html
@@ -51,6 +55,12 @@ RUN apk upgrade --no-cache && apk --no-cache add php85 php85-fpm php85-sqlite3 n
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
+
+# Bake the build version into /nginx-health while still root (the container runs
+# as nobody and can't edit nginx.conf at startup). $(cat) strips the trailing
+# newline; git describe output has no characters that would break the sed.
+COPY --from=builder /app/www/generated/version.txt /tmp/version.txt
+RUN sed -i "s|__APP_VERSION__|$(cat /tmp/version.txt)|" /etc/nginx/nginx.conf && rm /tmp/version.txt
 
 # Configure PHP-FPM
 COPY config/fpm-pool.conf /etc/php85/php-fpm.d/www.conf
