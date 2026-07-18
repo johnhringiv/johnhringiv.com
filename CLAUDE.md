@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Contribution Workflow (IMPORTANT)
+- **All changes go on a branch and are squash-merged into `main`** — never commit directly to `main`.
+- **Never `git push` without explicit approval.** Prepare commits locally and ask before pushing or opening a PR.
+- `main` is continuously deployed (see [Deployment Model](#deployment-model-cicd)), so anything merged ships to production within one poll cycle — this is why review-before-push matters.
+
 ## Project Overview
 Personal website for John H. Ring IV built with PHP, vanilla CSS (modern features, no Bootstrap), and minimal JavaScript. The site runs in a Docker container with Nginx and PHP-FPM using Alpine Linux.
 
@@ -432,6 +437,15 @@ tokyo-night, vesper, vitesse-*
 - All user input sanitized with `htmlentities()` or `htmlspecialchars()`
 - PHP configured with security headers in `/config/php.ini`
 - Nginx configured for security in `/config/nginx.conf`
+
+### Deployment Model (CI/CD)
+**Continuous deploy from `main`** — no manual promote/`:prod` gate. Full runbook: [`deploy/README.md`](deploy/README.md).
+- **CI** (`.github/workflows/ci.yml`): on every push/PR, builds the image (which validates `build_db.php`, image generation, shiki) and runs a Chromium smoke pass against the container. The full multi-browser `npm run test:docker` suite is a **local pre-push gate** — it can't run in CI because specs like `css-validation` read built assets from `www/generated/` off disk (only exists inside the image). CI fetches **Git LFS** content (`lfs: true`) since images + `data/cissp_results.json` are LFS-tracked; without it the build fails parsing the cissp pointer.
+- On push to `main` (or a `v*` tag), CI publishes to GHCR: `:latest` (what the host deploys), `:sha-<commit>`, and `:v5` for a `v*` git tag (plain release number, no semver — `type=ref,event=tag`).
+- **Host** (Synology NAS, behind pfSense/HAProxy + Cloudflare) runs `deploy/poll-deploy.sh` on a root cron every 5 min: pulls `:latest`, and on a digest change runs `deploy/deploy.sh` — a rolling **two-container** update (backup→primary, each gated on health **and** the version baked into the image) so HAProxy keeps the site up.
+- `/nginx-health` returns `healthy <git-describe>`; the version is baked into `nginx.conf` at build time (`Dockerfile` sed). HAProxy's OPTIONS http-check keys off the 200 status, not the body.
+- **Rollback**: host-side pin (`sudo IMAGE=…:sha-<commit> sh deploy.sh`) as an immediate stopgap, then `git revert` + push for the durable fix (the poller watches `:latest`, so a pin alone gets re-pulled).
+- Deploy scripts have **no config file / no secrets**; defaults (image, container names, ports 8080/8086) are hardcoded and env-var-overridable. On DSM the Docker socket is root-only, so scripts run with `sudo` / the cron task runs as `root`.
 
 ## Manual Docker Comparison (Optional)
 
