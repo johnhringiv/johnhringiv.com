@@ -50,8 +50,20 @@ jobs:
       # Building the image is itself a strong check: build_db.php's slug/date/
       # og-image validation, responsive image generation, and shiki highlighting
       # all run here and fail the build on any problem.
+      - uses: docker/setup-buildx-action@v4 # container driver; required for the gha build cache below
+      # Shares the GHA build cache with the publish job, so a push to main
+      # doesn't pay for two cold multi-stage builds back-to-back (#4).
       - name: Build image
-        run: docker build -t johnhringiv.com:latest .
+        uses: docker/build-push-action@v7
+        with:
+          context: . # path context, so the build sees .git (sitemap/asset lastmod)
+          load: true # export to the local daemon so the E2E suite can run it below
+          tags: johnhringiv.com:latest
+          # The monthly scheduled run exists to pick up base-image/apk CVE
+          # fixes; served from cache it would no-op, so bypass cache then.
+          no-cache: ${{ github.event_name == 'schedule' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Start container
         run: |
           docker run -d -p 8082:8080 --name johnhringiv-ci johnhringiv.com:latest
@@ -116,5 +128,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          no-cache: ${{ github.event_name == 'schedule' }} # monthly CVE rebuild must not be served from cache
           cache-from: type=gha
           cache-to: type=gha,mode=max
