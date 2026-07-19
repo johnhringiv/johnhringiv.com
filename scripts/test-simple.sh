@@ -10,7 +10,7 @@ IMAGE_NAME="johnhringiv.com:latest"
 CONTAINER_NAME="johnhringiv-test"
 VALIDATOR_NAME="johnhringiv-validator"
 VALIDATOR_IMAGE="ghcr.io/validator/validator"
-PORT=8082
+PORT="${PORT:-8082}"   # override if 8082 is taken: PORT=8083 npm run test:docker
 VALIDATOR_STARTED=false
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -88,7 +88,7 @@ echo ""
 echo "Running tests..."
 echo ""
 set +e  # Disable exit-on-error to capture exit code
-npm run test:e2e:quiet
+BASE_URL="http://localhost:$PORT" npm run test:e2e:quiet
 TEST_EXIT=$?
 set -e  # Re-enable exit-on-error
 

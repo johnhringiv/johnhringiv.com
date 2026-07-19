@@ -28,11 +28,11 @@ export interface HTMLValidationResult {
 export async function validateHTML(page: Page): Promise<HTMLValidationResult> {
   const html = await page.content();
 
-  // Use local validator.nu at http://localhost:8888
+  // Use local validator.nu (Docker: ghcr.io/validator/validator on :8888)
   const result = await validator({
     data: html,
     format: 'json',
-    validator: 'http://localhost:8888'
+    validator: process.env.VALIDATOR_URL || 'http://localhost:8888'
   }) as any;
 
   // Filter out false positives from the W3C CSS validator not supporting oklch()

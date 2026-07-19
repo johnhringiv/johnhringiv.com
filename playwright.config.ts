@@ -18,8 +18,8 @@ export default defineConfig({
   // Retry on CI only
   retries: process.env.CI ? 2 : 0,
 
-  // Parallel workers: 20 locally for fast execution, 2 in CI
-  workers: process.env.CI ? 2 : 20,
+  // Parallel workers: 20 locally for fast execution, 4 in CI (ubuntu-latest has 4 vCPUs)
+  workers: process.env.CI ? 4 : 20,
 
   // Reporter configuration
   reporter: [
@@ -30,8 +30,9 @@ export default defineConfig({
 
   // Shared settings for all projects
   use: {
-    // Base URL - change port as needed for local Docker testing
-    baseURL: 'http://localhost:8082',
+    // Base URL of the container under test; override with BASE_URL if the
+    // default port is taken (scripts/test-simple.sh passes this through)
+    baseURL: process.env.BASE_URL || 'http://localhost:8082',
 
     // Capture trace on first retry
     trace: 'on-first-retry',
@@ -46,8 +47,8 @@ export default defineConfig({
   // Global timeout for each test
   timeout: 30000,
 
-  // Global timeout for the whole test run
-  globalTimeout: 600000, // 10 minutes
+  // Global timeout for the whole test run (CI runs fewer workers, so allow longer)
+  globalTimeout: process.env.CI ? 2400000 : 600000, // 40 minutes on CI, 10 locally
 
   // Expect timeout for assertions
   expect: {

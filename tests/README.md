@@ -24,14 +24,19 @@ npm run test:docker
 ```
 
 This:
-- Starts HTML validator (requires Java)
+- Starts HTML validator (Docker container, `ghcr.io/validator/validator` on :8888)
 - Builds the Docker image
-- Runs all tests against port 8082
+- Runs all tests against port 8082 (override with `PORT=8083 npm run test:docker` if taken)
 - Cleans up
 
 **Fails immediately if:**
-- Java is not installed
+- Docker is not installed
 - Validator fails to start
+
+The **same suite runs in CI** (`.github/workflows/ci.yml`) on every push/PR,
+against the freshly built container plus the validator sidecar. No spec reads
+built assets from `www/generated/` on disk — everything is fetched over HTTP
+from the container — so a clean CI checkout is sufficient.
 
 ### Local Development Testing
 
@@ -123,17 +128,13 @@ Fast validation that core functionality works. Run before every deployment.
 #### HTML Validation (`features/html-validation.spec.ts`)
 **WHY CRITICAL:** Search engines and screen readers require valid markup.
 
-**Setup (one-time):**
+**Validator:** `scripts/test-simple.sh` (and CI) start it automatically as a
+Docker container. To start it manually:
 ```bash
-# Download validator.nu and install JRE
-curl -L https://github.com/validator/validator/releases/latest/download/vnu.jar -o ~/vnu.jar
-sudo apt install default-jre
+docker run -d --name validator -p 8888:8888 ghcr.io/validator/validator
 ```
-
-**Start validator server (before running tests):**
-```bash
-java -Xss1024k -cp ~/vnu.jar nu.validator.servlet.Main 8888
-```
+Point tests at a different instance with `VALIDATOR_URL` (default
+`http://localhost:8888`).
 
 **Tests:**
 - W3C HTML5 validation (no errors)
@@ -313,16 +314,15 @@ The icon sprite test now **automatically discovers** which icons are used on pag
 
 ## Configuration
 
-### Environment Variables (.env.test)
+### Environment Variables
 ```bash
-TEST_BASE_URL=http://localhost:8080  # Local test server
-PRODUCTION_URL=https://johnhringiv.com  # Production for comparison
-VISUAL_THRESHOLD=0.05  # Visual regression threshold (5%)
+BASE_URL=http://localhost:8083       # Container under test (default http://localhost:8082)
+VALIDATOR_URL=http://localhost:8888  # W3C Nu validator instance (default shown)
 ```
 
 ### Playwright Config (playwright.config.ts)
-- Base URL: http://localhost:8080 (overridable via TEST_BASE_URL)
-- **Workers: 20 locally, 2 in CI**
+- Base URL: http://localhost:8082 (overridable via BASE_URL)
+- **Workers: 20 locally, 4 in CI**
 - Retries: 0 local (fail fast), 2 in CI
 - Projects: chromium (primary), mobile-chrome, tablet, firefox (CSP testing), webkit (Safari compatibility)
 - Trace: on first retry
@@ -533,40 +533,27 @@ Warnings appear in Playwright's native output.
 ## Troubleshooting
 
 ### Tests fail with "Port already in use"
-Another service is using the test port. Change TEST_BASE_URL or stop the conflicting service.
+Another service is using the test port. Run `PORT=8083 npm run test:docker`, or
+for a manually started container set `BASE_URL=http://localhost:<port>`.
 
 ### Icon sprite test fails
 The test automatically discovers icons from pages. If it fails, an icon is referenced on a page but missing from sprite.svg. Check the error message for which icon is missing.
 
 ## CI/CD Integration
 
-Example GitHub Actions workflow:
-```yaml
-- name: Install dependencies
-  run: npm ci
+The full suite runs in CI on every push/PR — see `.github/workflows/ci.yml`.
+The `checks` job:
 
-- name: Install Playwright browsers
-  run: npx playwright install chromium firefox webkit
+1. Checks out with full git history + LFS (the image build needs both)
+2. Installs npm deps and all three Playwright browser engines (cached)
+3. Starts the W3C Nu validator container (`ghcr.io/validator/validator` on :8888)
+4. Builds the production Docker image and starts it on :8082
+5. Runs `npx playwright test` — the complete suite, all browser projects,
+   against the final container (no locally built `www/generated/` files needed)
+6. Uploads the HTML report as a workflow artifact on failure
 
-- name: Install Playwright system dependencies
-  run: npx playwright install-deps
-
-- name: Build Docker image
-  run: docker build -t johnhringiv.com:test .
-
-- name: Start Docker container
-  run: docker run -d -p 8080:8080 --name test johnhringiv.com:test
-
-- name: Run tests
-  run: TEST_BASE_URL=http://localhost:8080 npm run test:e2e
-
-- name: Upload test report
-  if: always()
-  uses: actions/upload-artifact@v3
-  with:
-    name: playwright-report
-    path: playwright-report/
-```
+The publish job (GHCR `:latest`) only runs if `checks` passes, so nothing
+reaches production without the full suite passing.
 
 ## Support
 
