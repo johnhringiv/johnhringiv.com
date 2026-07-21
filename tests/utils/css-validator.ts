@@ -73,7 +73,7 @@ export function extractUsedClasses(baseDir: string, patterns: string[]): Set<str
           // Reject tokens ending in a hyphen: these are truncation artifacts from
           // dynamically-concatenated class names (e.g. PHP `class="foo foo-' . $variant . '"`
           // captures the literal prefix `foo-`). The real class is applied at runtime and
-          // is picked up by collectRuntimeClasses instead.
+          // is picked up by collectSiteData's runtime DOM collection instead.
           const isTruncatedPrefix = className.endsWith('-');
 
           if (isValidClassName && !containsPhp && !isTruncatedPrefix) {
@@ -88,15 +88,29 @@ export function extractUsedClasses(baseDir: string, patterns: string[]): Set<str
 }
 
 /**
- * Collect all CSS classes present in the live DOM by visiting pages with Playwright.
- * This catches classes applied at runtime by JavaScript (classList.add, D3 renders, etc.)
- * that static regex scanning would miss.
+ * Everything the CSS validation needs from the running site:
+ * - runtimeClasses: classes present in the live DOM after JS execution
+ * - cssContent: concatenated text of every stylesheet the site loads
  */
-export async function collectRuntimeClasses(
+export interface SiteCSSData {
+  runtimeClasses: Set<string>;
+  cssContent: string;
+}
+
+/**
+ * Visit every page once, collecting the CSS classes present in the live DOM
+ * (catches classes applied at runtime by classList.add, D3 renders, etc. that
+ * static regex scanning would miss) and the URL of every stylesheet loaded.
+ * Stylesheets are then fetched over HTTP from the server under test — not read
+ * from the local working tree — so validation runs against the CSS the final
+ * container actually serves.
+ */
+export async function collectSiteData(
   page: Page,
   paths: string[]
-): Promise<Set<string>> {
+): Promise<SiteCSSData> {
   const classes = new Set<string>();
+  const stylesheetUrls = new Set<string>();
 
   const collectFromDOM = () => {
     const result: string[] = [];
@@ -113,6 +127,12 @@ export async function collectRuntimeClasses(
     const pageClasses = await page.evaluate(collectFromDOM);
     pageClasses.forEach(c => classes.add(c));
 
+    // Record every stylesheet this page loads (bundle.css + any extra_css)
+    const hrefs = await page
+      .locator('link[rel="stylesheet"]')
+      .evaluateAll(els => els.map(e => (e as HTMLLinkElement).href));
+    hrefs.forEach(h => stylesheetUrls.add(h));
+
     // CISSP page: click a model row to trigger cissp-struck toggle
     if (pagePath.includes('small-brains-big-test')) {
       const modelRow = page.locator('#cissp-table-models tbody tr').first();
@@ -128,7 +148,16 @@ export async function collectRuntimeClasses(
     }
   }
 
-  return classes;
+  const cssParts: string[] = [];
+  for (const url of stylesheetUrls) {
+    const response = await page.request.get(url);
+    if (!response.ok()) {
+      throw new Error(`Failed to fetch stylesheet ${url}: HTTP ${response.status()}`);
+    }
+    cssParts.push(await response.text());
+  }
+
+  return { runtimeClasses: classes, cssContent: cssParts.join('\n') };
 }
 
 /**

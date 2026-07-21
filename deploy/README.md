@@ -7,7 +7,7 @@ image and the host polls for it. There is **no manual promote step** — every
 push to `main` that passes CI is live within one poll cycle.
 
 ```
-push to main ──► CI (build + smoke) ──► GHCR :latest  (+ :sha-<commit>)
+push to main ──► CI (build + full E2E) ──► GHCR :latest  (+ :sha-<commit>)
                                              │
                     host cron: poll-deploy.sh ┘ pull :latest when digest changes
                                      │
@@ -18,12 +18,13 @@ push to main ──► CI (build + smoke) ──► GHCR :latest  (+ :sha-<commi
 
 **CI** (`.github/workflows/ci.yml`) runs on every push and PR: it builds the
 Docker image — which itself validates `build_db.php` (slugs, dates, OG images),
-responsive image generation, and shiki highlighting — and runs a **Chromium
-smoke pass** (all pages 200, CSS/JS/sprite load, no console errors, sprite
-completeness) against the running container. The full multi-browser +
-static-analysis suite (`npm run test:docker`) stays a **local pre-push gate**;
-several of its specs read built assets from `www/generated/` on disk, which
-only exists inside the image, not on a clean CI runner.
+responsive image generation, and shiki highlighting — and runs the **full
+multi-browser E2E suite** (chromium + mobile/tablet viewports, firefox, webkit;
+HTML/CSS validation, SEO, feed, sitemap, accessibility, responsive design)
+against the running container, with the W3C Nu validator running as a sidecar
+container. This is the same suite `npm run test:docker` runs locally — it
+tests the final container over HTTP, so it needs no locally built
+`www/generated/` assets.
 
 On push to `main` (or a `v*` tag) CI pushes to GHCR:
 

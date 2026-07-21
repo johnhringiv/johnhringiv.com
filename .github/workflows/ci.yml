@@ -32,29 +32,68 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      # The full suite runs every project in playwright.config.ts: chromium
+      # (+ mobile/tablet viewports), firefox (strictest CSP enforcement), webkit
+      # (Safari compatibility).
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+      # The html-validation specs POST rendered pages to a local W3C Nu
+      # validator on :8888. Start it first so the (slow) Java servlet warms up
+      # while the image builds below.
+      - name: Start HTML validator
+        run: docker run -d --name validator -p 8888:8888 ghcr.io/validator/validator
       # Building the image is itself a strong check: build_db.php's slug/date/
       # og-image validation, responsive image generation, and shiki highlighting
       # all run here and fail the build on any problem.
+      - uses: docker/setup-buildx-action@v4 # container driver; required for the gha build cache below
+      # Shares the GHA build cache with the publish job, so a push to main
+      # doesn't pay for two cold multi-stage builds back-to-back (#4).
       - name: Build image
-        run: docker build -t johnhringiv.com:latest .
-      # Start the container and run the Chromium smoke suite (all pages 200,
-      # CSS/JS/sprite load, no console errors, sprite completeness) against it.
-      # The full multi-browser + static-analysis suite (`npm run test:docker`)
-      # stays a local pre-push gate: several specs read built assets from
-      # www/generated/ on disk, which exists inside the image, not on a clean
-      # CI runner.
-      - name: Smoke test (Chromium)
+        uses: docker/build-push-action@v7
+        with:
+          context: . # path context, so the build sees .git (sitemap/asset lastmod)
+          load: true # export to the local daemon so the E2E suite can run it below
+          tags: johnhringiv.com:latest
+          # The monthly scheduled run exists to pick up base-image/apk CVE
+          # fixes; served from cache it would no-op, so bypass cache then.
+          no-cache: ${{ github.event_name == 'schedule' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Start container
         run: |
           docker run -d -p 8082:8080 --name johnhringiv-ci johnhringiv.com:latest
           for i in $(seq 1 30); do
             curl -sf http://localhost:8082/nginx-health >/dev/null && break
             sleep 2
           done
-          npx playwright test tests/e2e/smoke --project=chromium
-      - name: Stop container
+          curl -sf http://localhost:8082/nginx-health >/dev/null || { docker logs johnhringiv-ci; exit 1; }
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8888 >/dev/null && break
+            sleep 2
+          done
+          curl -sf http://localhost:8888 >/dev/null || { docker logs validator; exit 1; }
+      # The complete E2E suite (same one `npm run test:docker` runs locally):
+      # HTML/CSS validation, SEO, feeds, sitemap, accessibility, interactive
+      # features, responsive design — all against the final container. CSS
+      # validation fetches stylesheets over HTTP from the container, so no
+      # locally built www/generated/ files are needed.
+      - name: Run full E2E suite
+        run: npx playwright test
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: .build/playwright-report
+          retention-days: 7
+      - name: Stop containers
         if: always()
-        run: docker rm -f johnhringiv-ci || true
+        run: docker rm -f johnhringiv-ci validator || true
 
   publish:
     if: (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && (github.event_name == 'push' || github.event_name == 'schedule')
@@ -89,5 +128,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          no-cache: ${{ github.event_name == 'schedule' }} # monthly CVE rebuild must not be served from cache
           cache-from: type=gha
           cache-to: type=gha,mode=max
